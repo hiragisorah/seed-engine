@@ -68,7 +68,12 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -111,6 +116,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="component\test-component.h" />
+    <ClInclude Include="entity\test-entity.h" />
+    <ClInclude Include="graphics\directx11.h" />
+    <ClInclude Include="scene\test-scene.h" />
+    <ClInclude Include="seed-engine\component.h" />
+    <ClInclude Include="seed-engine\engine.h" />
+    <ClInclude Include="seed-engine\entity.h" />
+    <ClInclude Include="seed-engine\graphics.h" />
+    <ClInclude Include="seed-engine\scene-manager.h" />
+    <ClInclude Include="seed-engine\scene.h" />
+    <ClInclude Include="seed-engine\window.h" />
+    <ClInclude Include="window\simple-window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
