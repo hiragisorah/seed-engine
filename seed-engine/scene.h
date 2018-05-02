@@ -5,6 +5,7 @@
 
 #include "entity.h"
 #include "graphics.h"
+#include "resource-manager.h"
 
 namespace Seed
 {
@@ -15,9 +16,17 @@ namespace Seed
 
 	private:
 		std::shared_ptr<Scene> & self_;
+		std::unique_ptr<ResourceManager> resource_manager_;
 
 	public:
 		const std::shared_ptr<Scene> & self(void) { return this->self_; }
+		const std::unique_ptr<ResourceManager> & resource_manager(void) { return this->resource_manager_; }
+
+	public:
+		void CreateResourceManager(const std::unique_ptr<Graphics> & graphics)
+		{
+			this->resource_manager_ = std::make_unique<ResourceManager>(graphics);
+		}
 
 	public:
 		void Destroy(void) { this->self_.reset(); }
@@ -34,7 +43,9 @@ namespace Seed
 		{
 			this->entities_.emplace_back(nullptr);
 			auto & entity = this->entities_.back();
-			entity = std::make_shared<_Entity>(this->self_, entity, entity, args ...);
+			entity = std::make_shared<_Entity>(entity, args ...);
+			entity->set_scene(this->self_);
+			entity->Initialize();
 			return std::static_pointer_cast<_Entity>(entity);
 		}
 

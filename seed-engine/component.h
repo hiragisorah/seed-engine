@@ -13,22 +13,25 @@ namespace Seed
 			: entity_(entity), self_(self) {}
 
 	private:
-		const std::shared_ptr<Entity> & entity_;
+		std::weak_ptr<Entity> entity_;
 		std::shared_ptr<Component> & self_;
 
 	public:
-		const std::shared_ptr<Entity> & entity(void) { return this->entity_; }
+		const std::weak_ptr<Entity> & entity(void) { return this->entity_; }
 		const std::shared_ptr<Component> & self(void) { return this->self_; }
 
+		void set_entity(const std::shared_ptr<Entity> & entity) { this->entity_ = entity; }
+
 	private:
-		bool Remove(void) { this->Finalize(), this->self_.reset(); }
+		bool Remove(void) { this->OnRemove(), this->self_.reset(); }
 
 	public:
-		virtual void Initialize(void) {}
-		virtual void Finalize(void) {}
+		virtual void OnAdd(void) {}
+		virtual void OnRemove(void) {}
 		virtual void Pause(void) {}
 		virtual void Update(void) {}
 		virtual void Always(void) {}
 		virtual void Render(const std::unique_ptr<Graphics> & graphics) {}
+		virtual void Finalize(void) {}
 	};
 }

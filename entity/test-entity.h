@@ -6,8 +6,8 @@
 class TestEntity : public Seed::Entity
 {
 public:
-	TestEntity(const std::shared_ptr<Seed::Scene> & scene, const std::shared_ptr<Seed::Entity> & parent, std::shared_ptr<Seed::Entity> & self)
-		: Entity(scene, parent, self) {}
+	TestEntity(std::shared_ptr<Seed::Entity> & self)
+		: Entity(self) {}
 
 public:
 	void Initialize(void)

@@ -76,9 +76,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -90,11 +91,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -121,14 +123,19 @@
     <ClInclude Include="component\test-component.h" />
     <ClInclude Include="entity\test-entity.h" />
     <ClInclude Include="graphics\directx11.h" />
+    <ClInclude Include="model\dx11-model.h" />
     <ClInclude Include="scene\test-scene.h" />
     <ClInclude Include="seed-engine\component.h" />
     <ClInclude Include="seed-engine\engine.h" />
     <ClInclude Include="seed-engine\entity.h" />
     <ClInclude Include="seed-engine\graphics.h" />
+    <ClInclude Include="seed-engine\model.h" />
+    <ClInclude Include="seed-engine\resource-manager.h" />
     <ClInclude Include="seed-engine\scene-manager.h" />
     <ClInclude Include="seed-engine\scene.h" />
+    <ClInclude Include="seed-engine\texture.h" />
     <ClInclude Include="seed-engine\window.h" />
+    <ClInclude Include="texture\dx11-texture.h" />
     <ClInclude Include="window\simple-window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

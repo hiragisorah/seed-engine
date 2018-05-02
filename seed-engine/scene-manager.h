@@ -29,6 +29,7 @@ namespace Seed
 		template<class _Scene, class ... Args> void ChangeScene(const Args &&... args)
 		{
 			this->next_scene_ = std::make_shared<_Scene>(this->next_scene_, args ...);
+			this->next_scene_->CreateResourceManager(this->graphics_);
 		}
 
 	private:
@@ -36,7 +37,7 @@ namespace Seed
 		bool running_ = true;
 
 	public:
-		const bool & Run(void)
+		bool Run(void)
 		{
 			if (this->next_scene_)
 			{
@@ -45,7 +46,7 @@ namespace Seed
 			}
 			else
 			{
-				return (bool)!this->current_scene_._Expired();
+				return (bool)this->current_scene_;
 			}
 
 			this->pause_ ? this->Pause() : this->Update();
