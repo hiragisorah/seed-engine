@@ -117,10 +117,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXTK\WICTextureLoader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component\test-component.h" />
+    <ClInclude Include="DirectXTK\DirectXTex.h" />
+    <ClInclude Include="DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="entity\test-entity.h" />
     <ClInclude Include="graphics\directx11.h" />
     <ClInclude Include="model\dx11-model.h" />
@@ -133,10 +136,15 @@
     <ClInclude Include="seed-engine\resource-manager.h" />
     <ClInclude Include="seed-engine\scene-manager.h" />
     <ClInclude Include="seed-engine\scene.h" />
+    <ClInclude Include="seed-engine\shader.h" />
     <ClInclude Include="seed-engine\texture.h" />
     <ClInclude Include="seed-engine\window.h" />
+    <ClInclude Include="shader\dx11-shader.h" />
     <ClInclude Include="texture\dx11-texture.h" />
     <ClInclude Include="window\simple-window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DirectXTK\DirectXTex.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

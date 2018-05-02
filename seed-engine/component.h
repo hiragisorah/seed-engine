@@ -31,7 +31,7 @@ namespace Seed
 		virtual void Pause(void) {}
 		virtual void Update(void) {}
 		virtual void Always(void) {}
-		virtual void Render(const std::unique_ptr<Graphics> & graphics) {}
+		virtual void Render(const std::unique_ptr<Graphics> & graphics) { graphics; }
 		virtual void Finalize(void) {}
 	};
 }

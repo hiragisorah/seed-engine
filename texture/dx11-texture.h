@@ -1,9 +1,17 @@
 #pragma once
 
+#include <wrl\client.h>
+
 #include <seed-engine\texture.h>
 
 class Dx11Texture : public Seed::Texture
 {
+private:
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv_ = nullptr;
+
+public:
+	ID3D11ShaderResourceView ** const srv(void) { return this->srv_.GetAddressOf(); }
+
 private:
 	unsigned int width_ = 0;
 	unsigned int height_ = 0;
