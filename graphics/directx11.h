@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <d3dcompiler.h>
 #include <wrl\client.h>
 
 #include <memory>
@@ -15,8 +16,9 @@
 #include <model\dx11-model.h>
 #include <shader\dx11-shader.h>
 
-#pragma comment(lib, "DirectXTex.lib")
 #pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "DirectXTex.lib")
 
 class DirectX11 : public Seed::Graphics
 {
@@ -56,7 +58,6 @@ public:
 	}
 	bool Run(void) override
 	{
-
 		this->swap_chain_->Present(1, 0);
 
 		return true;
@@ -89,6 +90,149 @@ public:
 	{
 		auto shader = std::make_shared<Dx11Shader>();
 
+		ID3DBlob * blob = nullptr;
+		ID3DBlob * error = nullptr;
+
+		DWORD shader_flags = D3DCOMPILE_ENABLE_STRICTNESS;
+
+#if defined(DEBUG) || defined(_DEBUG)
+		shader_flags |= D3DCOMPILE_DEBUG;
+#else
+		shader_flags |= D3DCOMPILE_OPTIMIZATION_LEVEL3;
+#endif
+
+		if (FAILED(D3DCompileFromFile(std::wstring(file_path.begin(), file_path.end()).c_str(), nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, "VS", "vs_5_0", shader_flags, 0, &blob, &error)))
+		{
+			if (error != nullptr)
+				printf((char*)error->GetBufferPointer());
+		}
+		else
+		{
+			this->device_->CreateVertexShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, shader->vs().GetAddressOf());
+			this->CreateInputLayoutAndConstantBufferFromShader(shader->input_layout().GetAddressOf(), blob, shader->constant_buffer().GetAddressOf());
+		}
+
+		if (SUCCEEDED(D3DCompileFromFile(std::wstring(file_path.begin(), file_path.end()).c_str(), nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, "GS", "gs_5_0", shader_flags, 0, &blob, &error)))
+		{
+			this->device_->CreateGeometryShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, shader->gs().GetAddressOf());
+		}
+
+		if (SUCCEEDED(D3DCompileFromFile(std::wstring(file_path.begin(), file_path.end()).c_str(), nullptr,
+			D3D_COMPILE_STANDARD_FILE_INCLUDE, "PS", "ps_5_0", shader_flags, 0, &blob, &error)))
+		{
+			this->device_->CreatePixelShader(blob->GetBufferPointer(), blob->GetBufferSize(), nullptr, shader->ps().GetAddressOf());
+		}
+
 		return shader;
+	}
+
+private:
+	void CreateInputLayoutAndConstantBufferFromShader(ID3D11InputLayout ** layout, ID3DBlob * blob, ID3D11Buffer ** cbuffer)
+	{
+		ID3D11ShaderReflection * reflector = nullptr;
+		D3DReflect(blob->GetBufferPointer(), blob->GetBufferSize(), IID_ID3D11ShaderReflection, (void**)&reflector);
+
+		// コンスタントバッファーの作成
+		D3D11_SHADER_DESC shader_desc;
+		reflector->GetDesc(&shader_desc);
+
+		int size = 0;
+		if (shader_desc.ConstantBuffers)
+		{
+			auto cb = reflector->GetConstantBufferByName("unique");
+			D3D11_SHADER_BUFFER_DESC desc;
+			cb->GetDesc(&desc);
+
+			for (size_t j = 0; j < desc.Variables; ++j) {
+				auto v = cb->GetVariableByIndex(j);
+				D3D11_SHADER_VARIABLE_DESC vdesc;
+				v->GetDesc(&vdesc);
+				size += vdesc.Size;
+			}
+		}
+		//
+
+		D3D11_BUFFER_DESC bd;
+		bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		bd.ByteWidth = size;
+		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		bd.MiscFlags = 0;
+		bd.StructureByteStride = 0;
+		bd.Usage = D3D11_USAGE_DYNAMIC;
+
+		if (FAILED(this->device_->CreateBuffer(&bd, nullptr, cbuffer)))
+			printf("コンスタントバッファーの作成に失敗しました。");
+		//
+
+		std::vector<D3D11_INPUT_ELEMENT_DESC> vbElement;
+		for (unsigned int i = 0; i < shader_desc.InputParameters; ++i) {
+			D3D11_SIGNATURE_PARAMETER_DESC sigdesc;
+			reflector->GetInputParameterDesc(i, &sigdesc);
+
+			auto format = GetDxgiFormat(sigdesc.ComponentType, sigdesc.Mask);
+
+			D3D11_INPUT_ELEMENT_DESC eledesc = {
+				sigdesc.SemanticName
+				, sigdesc.SemanticIndex
+				, format
+				, 0
+				, D3D11_APPEND_ALIGNED_ELEMENT
+				, D3D11_INPUT_PER_VERTEX_DATA
+				, 0
+			};
+			vbElement.push_back(eledesc);
+		}
+		if (!vbElement.empty()) {
+			if (FAILED(this->device_->CreateInputLayout(&vbElement[0], vbElement.size(),
+				blob->GetBufferPointer(), blob->GetBufferSize(), layout))) {
+				printf("インプットレイアウトの作成に失敗しました。");
+			};
+		}
+	}
+	DXGI_FORMAT GetDxgiFormat(D3D_REGISTER_COMPONENT_TYPE type, BYTE mask)
+	{
+		if (mask == 0x0F)
+		{
+			// xyzw
+			switch (type)
+			{
+			case D3D_REGISTER_COMPONENT_FLOAT32:
+				return DXGI_FORMAT_R32G32B32A32_FLOAT;
+			}
+		}
+
+		if (mask == 0x07)
+		{
+			// xyz
+			switch (type)
+			{
+			case D3D_REGISTER_COMPONENT_FLOAT32:
+				return DXGI_FORMAT_R32G32B32_FLOAT;
+			}
+		}
+
+		if (mask == 0x3)
+		{
+			// xy
+			switch (type)
+			{
+			case D3D_REGISTER_COMPONENT_FLOAT32:
+				return DXGI_FORMAT_R32G32_FLOAT;
+			}
+		}
+
+		if (mask == 0x1)
+		{
+			// x
+			switch (type)
+			{
+			case D3D_REGISTER_COMPONENT_FLOAT32:
+				return DXGI_FORMAT_R32_FLOAT;
+			}
+		}
+
+		return DXGI_FORMAT_UNKNOWN;
 	}
 };
