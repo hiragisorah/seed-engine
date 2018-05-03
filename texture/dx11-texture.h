@@ -10,7 +10,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv_ = nullptr;
 
 public:
-	ID3D11ShaderResourceView ** const srv(void) { return this->srv_.GetAddressOf(); }
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> & srv(void) { return this->srv_; }
 
 private:
 	unsigned int width_ = 0;

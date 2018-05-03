@@ -21,6 +21,114 @@
     <ClCompile Include="DirectXTK\WICTextureLoader.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="DirectXTK\SpriteBatch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\AlphaTestEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\BasicEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\BasicPostProcess.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\BinaryReader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\CommonStates.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\DDSTextureLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\DebugEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\DGSLEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\DGSLEffectFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\DualPostProcess.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\DualTextureEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\EffectCommon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\EffectFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\EnvironmentMapEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\GamePad.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\GeometricPrimitive.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Geometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\GraphicsMemory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Keyboard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Model.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\ModelLoadCMO.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\ModelLoadSDKMESH.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\ModelLoadVBO.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Mouse.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\NormalMapEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\PBREffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\pch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\PrimitiveBatch.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\ScreenGrab.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\SimpleMath.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\SkinnedEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\SpriteFont.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\ToneMapPostProcess.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\VertexTypes.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\directx11.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component\test-component.h">
@@ -86,10 +194,605 @@
     <ClInclude Include="DirectXTK\WICTextureLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="DirectXTK\AlignedNew.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Audio.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Bezier.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\BinaryReader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\CommonStates.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\ConstantBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\dds.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\DDSTextureLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\DemandCreate.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\DirectXHelpers.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\EffectCommon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Effects.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\GamePad.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\GeometricPrimitive.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Geometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\GraphicsMemory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Keyboard.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\LoaderHelpers.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Model.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\Mouse.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\pch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\PlatformHelpers.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\PostProcess.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\PrimitiveBatch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\ScreenGrab.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\SDKMesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\SharedResourcePool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\SimpleMath.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\SpriteBatch.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\SpriteFont.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\vbo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTK\VertexTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="seed-engine\utils.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTK\DirectXTex.inl">
       <Filter>ヘッダー ファイル</Filter>
     </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_PSAlphaTestEqNe.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_PSAlphaTestEqNeNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_PSAlphaTestLtGt.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_PSAlphaTestLtGtNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_VSAlphaTest.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_VSAlphaTestNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_VSAlphaTestVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\AlphaTestEffect_VSAlphaTestVcNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasic.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicPixelLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicPixelLightingTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicTxNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicVertexLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicVertexLightingNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicVertexLightingTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_PSBasicVertexLightingTxNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasic.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLight.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightTxBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightTxVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightTxVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicOneLightVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingTxBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingTxVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingTxVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicPixelLightingVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicTxNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicTxVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicTxVcNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVcNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingTxBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingTxVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingTxVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\BasicEffect_VSBasicVertexLightingVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_PSHemiAmbient.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_PSRGBBiTangents.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_PSRGBNormals.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_PSRGBTangents.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_VSDebug.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_VSDebugBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_VSDebugVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DebugEffect_VSDebugVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main1Bones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main1BonesVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main2Bones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main2BonesVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main4Bones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_main4BonesVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLEffect_mainVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLLambert_main.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLLambert_mainTk.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLLambert_mainTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLLambert_mainTxTk.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLPhong_main.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLPhong_mainTk.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLPhong_mainTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLPhong_mainTxTk.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLUnlit_main.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLUnlit_mainTk.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLUnlit_mainTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DGSLUnlit_mainTxTk.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DualTextureEffect_PSDualTexture.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DualTextureEffect_PSDualTextureNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DualTextureEffect_VSDualTexture.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DualTextureEffect_VSDualTextureNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DualTextureEffect_VSDualTextureVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\DualTextureEffect_VSDualTextureVcNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMap.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapPixelLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapPixelLightingFresnel.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapPixelLightingFresnelNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapPixelLightingNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapSpecular.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_PSEnvMapSpecularNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMap.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapFresnel.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapFresnelBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapOneLight.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapOneLightBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapOneLightFresnel.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapOneLightFresnelBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapPixelLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\EnvironmentMapEffect_VSEnvMapPixelLightingBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_PSNormalPixelLightingTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_PSNormalPixelLightingTxNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_PSNormalPixelLightingTxNoFogSpec.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_PSNormalPixelLightingTxNoSpec.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_VSNormalPixelLightingTx.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_VSNormalPixelLightingTxBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_VSNormalPixelLightingTxVc.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\NormalMapEffect_VSNormalPixelLightingTxVcBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_PSConstant.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_PSTextured.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_PSTexturedEmissive.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_PSTexturedEmissiveVelocity.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_PSTexturedVelocity.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_VSConstant.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_VSConstantBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_VSConstantVelocity.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PBREffect_VSConstantVelocityBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSBloomBlur.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSBloomCombine.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSBloomExtract.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSCopy.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSDownScale2x2.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSDownScale4x4.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSGaussianBlur5x5.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSMerge.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSMonochrome.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_PSSepia.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\PostProcess_VSQuad.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_PSSkinnedPixelLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_PSSkinnedVertexLighting.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_PSSkinnedVertexLightingNoFog.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedOneLightFourBones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedOneLightFourBonesBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedOneLightOneBone.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedOneLightOneBoneBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedOneLightTwoBones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedOneLightTwoBonesBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedPixelLightingFourBones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedPixelLightingFourBonesBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedPixelLightingOneBone.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedPixelLightingOneBoneBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedPixelLightingTwoBones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedPixelLightingTwoBonesBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedVertexLightingFourBones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedVertexLightingFourBonesBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedVertexLightingOneBone.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedVertexLightingOneBoneBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedVertexLightingTwoBones.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SkinnedEffect_VSSkinnedVertexLightingTwoBonesBn.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SpriteEffect_SpritePixelShader.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\SpriteEffect_SpriteVertexShader.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PS_SRGB.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSACESFilmic.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSACESFilmic_SRGB.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSCopy.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSHDR10.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSReinhard.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSReinhard_SRGB.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSSaturate.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_PSSaturate_SRGB.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\Shaders\Compiled\ToneMap_VSQuad.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\SimpleMath.inl">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="DirectXTK\TeapotData.inc">
+      <Filter>ヘッダー ファイル</Filter>
+    </None>
+    <None Include="Shader.dgsl" />
   </ItemGroup>
 </Project>

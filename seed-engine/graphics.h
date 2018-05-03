@@ -32,5 +32,9 @@ namespace Seed
 		virtual const std::shared_ptr<Texture> CreateTexture(std::string file_path) { return std::make_shared<Texture>(); }
 		virtual const std::shared_ptr<Model> CreateModel(std::string file_path) { return std::make_shared<Model>(); }
 		virtual const std::shared_ptr<Shader> CreateShader(std::string file_path) { return std::make_shared<Shader>(); }
+
+	private:
+		virtual void CreateBackBuffer(void) {}
+		virtual void CreateDeffered(void) {}
 	};
 }
