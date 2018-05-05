@@ -1,7 +1,10 @@
 #pragma once
 
+#include <DirectXTK\Keyboard.h>
+
 #include <string>
 
+#include <seed-engine\window.h>
 #include <seed-engine\window.h>
 
 class SimpleWindow : public Seed::Window
@@ -109,7 +112,15 @@ private:
 		switch (i_msg)
 		{
 		case WM_DESTROY:PostQuitMessage(0); break;
+		case WM_ACTIVATEAPP:
+		case WM_KEYDOWN:
+		case WM_KEYUP:
+		case WM_SYSKEYUP:
+			DirectX::Keyboard::ProcessMessage(i_msg, w_param, l_param);
+			break;
+		default:
+			return DefWindowProc(hwnd, i_msg, w_param, l_param);
 		}
-		return DefWindowProc(hwnd, i_msg, w_param, l_param);
+		return 0;
 	}
 };

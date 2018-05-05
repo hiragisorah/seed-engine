@@ -29,46 +29,52 @@ void DirectX11::Initialize(void)
 	this->CreateBackBuffer();
 	this->CreateDeffered();
 
-	this->sb = std::make_shared<DirectX::SpriteBatch>(this->context_.Get());
+	this->sprites_ = std::make_shared<DirectX::SpriteBatch>(this->context_.Get());
 	this->texture_ = std::static_pointer_cast<Dx11Texture>(this->CreateTexture("resource/texture/grid.bmp"));
-	this->sf = std::make_shared<DirectX::SpriteFont>(this->device_.Get(), L"resource/font/myfile.spritefont");
+	this->font_ = std::make_shared<DirectX::SpriteFont>(this->device_.Get(), L"resource/font/myfile.spritefont");
 }
 
 bool DirectX11::Run(void)
 {
-	this->context_->ClearRenderTargetView(this->deffered_.rtv_[0].Get(), (float*)&this->deffered_.color_);
-	this->context_->ClearDepthStencilView(this->deffered_.dsv_.Get(), D3D11_CLEAR_DEPTH, 1.f, 0);
-	this->context_->ClearRenderTargetView(this->back_buffer_.rtv_[0].Get(), (float*)&this->back_buffer_.color_);
-	this->context_->ClearDepthStencilView(this->back_buffer_.dsv_.Get(), D3D11_CLEAR_DEPTH, 1.f, 0);
+	// Clear all render targets.
+	// レンダーターゲットのクリア
+	this->Clear();
 
-	this->context_->OMSetRenderTargets(5, this->deffered_.rtv_[0].GetAddressOf(), this->deffered_.dsv_.Get());
-	this->context_->RSSetViewports(1, &this->deffered_.vp_);
+	// Target: Deffered
+	// ターゲットを設定：ディファード
+	this->SetRenderTarget(this->deffered_, 5);
+	this->SetTexturesFromRenderTarget(this->deffered_);
 
-	sb->Begin();
+	this->sprites_->Begin();
 
-	sb->SetViewport(this->back_buffer_.vp_);
-	sb->Draw(this->texture_->srv().Get(), DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White,
+	this->sprites_->SetViewport(this->back_buffer_.vp_);
+	this->sprites_->Draw(this->texture_->srv().Get(), DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White,
 		0.f, DirectX::XMFLOAT2(0.f, 0.f), DirectX::XMFLOAT2(.5f, .5f));
-	sf->DrawString(sb.get(), L"あいうえお、はろーわーるど", DirectX::XMFLOAT2(0, 0));
-	sf->DrawString(sb.get(), L"なにがおきてるの、わからない", DirectX::XMFLOAT2(20, 10));
 
-	sb->End();
-
-	this->context_->OMSetRenderTargets(1, this->back_buffer_.rtv_[0].GetAddressOf(), this->back_buffer_.dsv_.Get());
-	this->context_->RSSetViewports(1, &this->back_buffer_.vp_);
-
-	sb->Begin();
+	this->font_->DrawString(this->sprites_.get(), L"あいうえお、はろーわーるど", DirectX::XMFLOAT2(0, 0));
+	this->font_->DrawString(this->sprites_.get(), L"なにがおきてるの、わからない", DirectX::XMFLOAT2(20, 10));
 
 	auto vp = DirectX::XMFLOAT2(this->back_buffer_.vp_.Width, this->back_buffer_.vp_.Height);
 
-	sb->Draw(this->deffered_.srv_[0].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
-	//sb->Draw(this->deffered_.srv_[0].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
-	//sb->Draw(this->deffered_.srv_[1].Get(), Seed::Mul(DirectX::XMFLOAT2(.5f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
-	//sb->Draw(this->deffered_.srv_[2].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .5f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
-	//sb->Draw(this->deffered_.srv_[3].Get(), Seed::Mul(DirectX::XMFLOAT2(.5f, .5f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
+	this->sprites_->End();
 
-	sb->End();
+	this->sprites_->Begin();
+	this->sprites_->Draw(this->deffered_.srv_[0].Get(), DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
+	this->sprites_->End();
 
+	// Target: BackBuffer
+	// ターゲットを設定：バックバッファー
+	this->SetRenderTarget(this->back_buffer_, 1);
+	this->SetTexturesFromRenderTarget(this->deffered_);
+
+	this->sprites_->Begin();
+
+	this->sprites_->Draw(this->deffered_.srv_[0].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
+
+	this->sprites_->End();
+
+	// Show
+	// 表示
 	this->swap_chain_->Present(1, 0);
 
 	return true;
@@ -89,11 +95,11 @@ const std::shared_ptr<Seed::Texture> DirectX11::CreateTexture(std::string file_p
 	return texture;
 }
 
-const std::shared_ptr<Seed::Model> DirectX11::CreateModel(std::string file_path)
+const std::shared_ptr<Seed::Geometry> DirectX11::CreateGeometry(std::string file_path)
 {
-	auto model = std::make_shared<Dx11Model>();
+	auto geometry = std::make_shared<Dx11Model>();
 
-	return model;
+	return geometry;
 }
 
 const std::shared_ptr<Seed::Shader> DirectX11::CreateShader(std::string file_path)
@@ -140,12 +146,16 @@ const std::shared_ptr<Seed::Shader> DirectX11::CreateShader(std::string file_pat
 
 void DirectX11::CreateBackBuffer(void)
 {
+	D3D11_SHADER_RESOURCE_VIEW_DESC srv_desc = {};
+
 	this->back_buffer_.color_ = { .5f, .4f, 1.f, 1.f };
 
 	// バックバッファーテクスチャーを取得
 	this->swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&this->back_buffer_.tex_[0]);
 	// そのテクスチャーに対しレンダーターゲットビュー(RTV)を作成
 	this->device_->CreateRenderTargetView(this->back_buffer_.tex_[0].Get(), nullptr, this->back_buffer_.rtv_[0].GetAddressOf());
+
+	memset(&srv_desc, 0, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 
 	// デプスステンシルビュー用のテクスチャーを作成
 	D3D11_TEXTURE2D_DESC descDepth;
@@ -164,6 +174,12 @@ void DirectX11::CreateBackBuffer(void)
 
 	// そのテクスチャーに対しデプスステンシルビュー(DSV)を作成
 	this->device_->CreateDepthStencilView(this->back_buffer_.ds_tex_.Get(), nullptr, this->back_buffer_.dsv_.GetAddressOf());
+
+	srv_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srv_desc.Texture2D.MipLevels = 1;
+
+	this->device_->CreateShaderResourceView(this->back_buffer_.tex_[0].Get(), &srv_desc, this->back_buffer_.srv_[0].GetAddressOf());
 
 	// ビューポートの作成
 	this->back_buffer_.vp_.Width = this->window()->width<float>();
@@ -316,6 +332,73 @@ void DirectX11::CreateDeffered(void)
 	this->device_->CreateDepthStencilView(this->deffered_.ds_tex_.Get(), nullptr, this->deffered_.dsv_.GetAddressOf());
 }
 
+void DirectX11::AddModelToRenderingList(const std::shared_ptr<Seed::Model>& model, int list_num)
+{
+	this->rendering_list_[list_num].emplace_back(model);
+}
+
+void DirectX11::RenderModel(const std::weak_ptr<Seed::Model>& model)
+{
+	auto shader = model.lock()->shader<Dx11Shader>().lock();
+	auto geometry = model.lock()->geometry<Dx11Geometry>().lock();
+
+	unsigned int vertex_size = geometry->vertex_size();
+	unsigned int offset = 0;
+
+	this->context_->VSSetShader(shader->vs().Get(), nullptr, 0);
+	this->context_->GSSetShader(shader->gs().Get(), nullptr, 0);
+	this->context_->PSSetShader(shader->ps().Get(), nullptr, 0);
+
+	this->context_->UpdateSubresource(shader->constant_buffer().Get(), 0, nullptr, model.lock()->constant_buffer(), 0, 0);
+
+	this->context_->VSSetConstantBuffers(0, 1, shader->constant_buffer().GetAddressOf());
+	this->context_->GSSetConstantBuffers(0, 1, shader->constant_buffer().GetAddressOf());
+	this->context_->PSSetConstantBuffers(0, 1, shader->constant_buffer().GetAddressOf());
+
+	this->context_->IASetInputLayout(shader->input_layout().Get());
+	this->context_->IASetVertexBuffers(0, 1, geometry->vertex_buffer().GetAddressOf(), &vertex_size, &offset);
+	this->context_->IASetPrimitiveTopology(geometry->topology());
+
+	if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_DEFAULT)
+	{
+		this->context_->Draw(geometry->index_num(), 0);
+	}
+	else if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_INDEXED)
+	{
+		this->context_->IASetIndexBuffer(geometry->index_buffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+		this->context_->DrawIndexed(geometry->index_num(), 0, 0);
+	}
+	else if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_INSTANCED)
+	{
+
+	}
+	else if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_INSTANCED_INDEXED)
+	{
+		this->context_->IASetIndexBuffer(geometry->index_buffer().Get(), DXGI_FORMAT_R32_UINT, 0);
+	}
+}
+
+void DirectX11::Clear(void)
+{
+	this->context_->ClearRenderTargetView(this->deffered_.rtv_[0].Get(), (float*)&this->deffered_.color_);
+	this->context_->ClearDepthStencilView(this->deffered_.dsv_.Get(), D3D11_CLEAR_DEPTH, 1.f, 0);
+	this->context_->ClearRenderTargetView(this->back_buffer_.rtv_[0].Get(), (float*)&this->back_buffer_.color_);
+	this->context_->ClearDepthStencilView(this->back_buffer_.dsv_.Get(), D3D11_CLEAR_DEPTH, 1.f, 0);
+}
+
+void DirectX11::SetRenderTarget(RenderTarget & rt, unsigned int target_num)
+{
+	this->context_->OMSetRenderTargets(target_num, rt.rtv_[0].GetAddressOf(), rt.dsv_.Get());
+	this->context_->RSSetViewports(1, &rt.vp_);
+}
+
+void DirectX11::SetTexturesFromRenderTarget(RenderTarget & rt)
+{
+	this->context_->VSSetShaderResources(1, kRenderTargetCnt, rt.srv_->GetAddressOf());
+	this->context_->GSSetShaderResources(1, kRenderTargetCnt, rt.srv_->GetAddressOf());
+	this->context_->PSSetShaderResources(1, kRenderTargetCnt, rt.srv_->GetAddressOf());
+}
+
 void DirectX11::CreateInputLayoutAndConstantBufferFromShader(ID3D11InputLayout ** layout, ID3DBlob * blob, ID3D11Buffer ** cbuffer)
 {
 	ID3D11ShaderReflection * reflector = nullptr;
@@ -344,10 +427,10 @@ void DirectX11::CreateInputLayoutAndConstantBufferFromShader(ID3D11InputLayout *
 	D3D11_BUFFER_DESC bd;
 	bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	bd.ByteWidth = size;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bd.CPUAccessFlags = 0;
 	bd.MiscFlags = 0;
 	bd.StructureByteStride = 0;
-	bd.Usage = D3D11_USAGE_DYNAMIC;
+	bd.Usage = D3D11_USAGE_DEFAULT;
 
 	if (FAILED(this->device_->CreateBuffer(&bd, nullptr, cbuffer)))
 		printf("コンスタントバッファーの作成に失敗しました。");

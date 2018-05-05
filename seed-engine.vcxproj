@@ -194,12 +194,13 @@
     <ClInclude Include="DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="entity\test-entity.h" />
     <ClInclude Include="graphics\directx11.h" />
-    <ClInclude Include="model\dx11-model.h" />
+    <ClInclude Include="geometry\dx11-geometry.h" />
     <ClInclude Include="scene\test-scene.h" />
     <ClInclude Include="seed-engine\component.h" />
     <ClInclude Include="seed-engine\engine.h" />
     <ClInclude Include="seed-engine\entity.h" />
     <ClInclude Include="seed-engine\graphics.h" />
+    <ClInclude Include="seed-engine\geometry.h" />
     <ClInclude Include="seed-engine\model.h" />
     <ClInclude Include="seed-engine\resource-manager.h" />
     <ClInclude Include="seed-engine\scene-manager.h" />
@@ -379,7 +380,6 @@
     <None Include="DirectXTK\Shaders\Compiled\ToneMap_VSQuad.inc" />
     <None Include="DirectXTK\SimpleMath.inl" />
     <None Include="DirectXTK\TeapotData.inc" />
-    <None Include="Shader.dgsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

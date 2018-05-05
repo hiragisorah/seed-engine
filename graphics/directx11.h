@@ -6,22 +6,25 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <DirectXTK\DirectXTex.h>
 #include <DirectXTK\WICTextureLoader.h>
 #include <DirectXTK\SpriteBatch.h>
 #include <DirectXTK\SpriteFont.h>
+#include <DirectXTK\Keyboard.h>
 
 #include <seed-engine\graphics.h>
 #include <texture\dx11-texture.h>
-#include <model\dx11-model.h>
+#include <geometry\dx11-geometry.h>
 #include <shader\dx11-shader.h>
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "DirectXTex.lib")
 
-constexpr unsigned int kRenderTargetCnt = 10;
+constexpr unsigned int kRenderTargetCnt = 7;
+constexpr unsigned int kRenderingList = 10;
 
 class DirectX11 : public Seed::Graphics
 {
@@ -50,8 +53,8 @@ private:
 	RenderTarget deffered_;
 
 private:
-	std::shared_ptr<DirectX::SpriteBatch> sb;
-	std::shared_ptr<DirectX::SpriteFont> sf;
+	std::shared_ptr<DirectX::SpriteBatch> sprites_;
+	std::shared_ptr<DirectX::SpriteFont> font_;
 	std::shared_ptr<Dx11Texture> texture_;
 
 public:
@@ -61,12 +64,24 @@ public:
 
 public:
 	const std::shared_ptr<Seed::Texture> CreateTexture(std::string file_path) override;
-	const std::shared_ptr<Seed::Model> CreateModel(std::string file_path) override;
+	const std::shared_ptr<Seed::Geometry> CreateGeometry(std::string file_path) override;
 	const std::shared_ptr<Seed::Shader> CreateShader(std::string file_path) override;
 
 private:
 	void CreateBackBuffer(void) override;
 	void CreateDeffered(void) override;
+
+private:
+	std::vector<std::weak_ptr<Seed::Model>> rendering_list_[kRenderingList];
+
+public:
+	virtual void AddModelToRenderingList(const std::shared_ptr<Seed::Model> & model, int list_num) override;
+	virtual void RenderModel(const std::weak_ptr<Seed::Model> & model) override;
+
+private:
+	void Clear(void);
+	void SetRenderTarget(RenderTarget & rt, unsigned int target_num);
+	void SetTexturesFromRenderTarget(RenderTarget & rt);
 
 private:
 	void CreateInputLayoutAndConstantBufferFromShader(ID3D11InputLayout ** layout, ID3DBlob * blob, ID3D11Buffer ** cbuffer);

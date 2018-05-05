@@ -1,11 +1,14 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "window.h"
 #include "texture.h"
-#include "model.h"
+#include "geometry.h"
 #include "shader.h"
+#include "model.h"
 
 namespace Seed
 {
@@ -29,8 +32,12 @@ namespace Seed
 		virtual void Finalize(void) {}
 
 	public:
+		virtual void AddModelToRenderingList(const std::shared_ptr<Model> & model, int list_num) {}
+		virtual void RenderModel(const std::weak_ptr<Model> & model) {}
+
+	public:
 		virtual const std::shared_ptr<Texture> CreateTexture(std::string file_path) { return std::make_shared<Texture>(); }
-		virtual const std::shared_ptr<Model> CreateModel(std::string file_path) { return std::make_shared<Model>(); }
+		virtual const std::shared_ptr<Geometry> CreateGeometry(std::string file_path) { return std::make_shared<Geometry>(); }
 		virtual const std::shared_ptr<Shader> CreateShader(std::string file_path) { return std::make_shared<Shader>(); }
 
 	private:
