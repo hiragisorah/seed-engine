@@ -51,7 +51,7 @@ namespace Seed
 		{
 			this->textures_[file_name].reset();
 		}
-		void unload_model(const std::string & file_name)
+		void unload_geometry(const std::string & file_name)
 		{
 			this->geometries_[file_name].reset();
 		}

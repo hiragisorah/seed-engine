@@ -58,7 +58,7 @@ bool DirectX11::Run(void)
 	// Target: Deffered
 	// ターゲットを設定：ディファード
 	this->SetRenderTarget(this->deffered_, 5);
-	this->SetTexturesFromRenderTarget(this->deffered_);
+	//this->SetTexturesFromRenderTarget(this->deffered_);
 
 	for (auto && model : this->rendering_list_[0])
 	{
@@ -74,7 +74,12 @@ bool DirectX11::Run(void)
 
 	this->sprites_->Begin();
 
-	this->sprites_->Draw(this->deffered_.srv_[0].Get(), DirectX::XMFLOAT2(0.f, 0.f), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
+	auto vp = DirectX::XMFLOAT2(this->back_buffer_.vp_.Width, this->back_buffer_.vp_.Height);
+
+	this->sprites_->Draw(this->deffered_.srv_[0].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
+	this->sprites_->Draw(this->deffered_.srv_[1].Get(), Seed::Mul(DirectX::XMFLOAT2(.5f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
+	this->sprites_->Draw(this->deffered_.srv_[2].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .5f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
+	this->sprites_->Draw(this->deffered_.srv_[3].Get(), Seed::Mul(DirectX::XMFLOAT2(.5f, .5f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
 
 	this->sprites_->End();
 
@@ -416,7 +421,9 @@ void DirectX11::RenderModel(const std::weak_ptr<Seed::Model>& model)
 
 void DirectX11::Clear(void)
 {
-	this->context_->ClearRenderTargetView(this->deffered_.rtv_[0].Get(), (float*)&this->deffered_.color_);
+	for(int n = 0; n < 5; ++n)
+		this->context_->ClearRenderTargetView(this->deffered_.rtv_[n].Get(), (float*)&this->deffered_.color_);
+
 	this->context_->ClearDepthStencilView(this->deffered_.dsv_.Get(), D3D11_CLEAR_DEPTH, 1.f, 0);
 	this->context_->ClearRenderTargetView(this->back_buffer_.rtv_[0].Get(), (float*)&this->back_buffer_.color_);
 	this->context_->ClearDepthStencilView(this->back_buffer_.dsv_.Get(), D3D11_CLEAR_DEPTH, 1.f, 0);

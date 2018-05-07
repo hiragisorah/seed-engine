@@ -12,8 +12,13 @@ public:
 	void Initialize(void) override
 	{
 		this->resource_manager()->load_geometry("test.geometry");
-		this->resource_manager()->load_shader("test.hlsl");
+		this->resource_manager()->load_shader("simple-deffered.hlsl");
 
 		this->Create<TestEntity>();
+	}
+	void Finalize(void) override
+	{
+		this->resource_manager()->unload_geometry("test.geometry");
+		this->resource_manager()->unload_shader("simple-deffered.hlsl");
 	}
 };

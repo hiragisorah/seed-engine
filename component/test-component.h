@@ -10,9 +10,16 @@
 
 class TestComponent final : public Seed::Component
 {
+	struct CBUFFER
+	{
+		DirectX::XMMATRIX world_;
+		DirectX::XMMATRIX view_;
+		DirectX::XMMATRIX proj_;
+	};
+
 private:
 	std::shared_ptr<Seed::Model> model_;
-	DirectX::XMMATRIX world_;
+	CBUFFER cbuffer_;
 
 public:
 	TestComponent(std::shared_ptr<Seed::Component> & self)
@@ -22,21 +29,20 @@ public:
 	void OnAdd(void) override
 	{
 		auto & resource_manager = this->entity().lock()->scene().lock()->resource_manager();
-		auto geometry = resource_manager->geometry("test.geometry");
-		auto shader = resource_manager->shader("test.hlsl");
+		auto geometry           = resource_manager->geometry("test.geometry");
+		auto shader             = resource_manager->shader("simple-deffered.hlsl");
+		this->cbuffer_.world_   = DirectX::XMMatrixScaling(.01f, .01f, .01f);
+		this->cbuffer_.view_    = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
+		this->cbuffer_.proj_    = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
+		this->model_            = std::make_shared<Seed::Model>();
 
-		this->model_ = std::make_shared<Seed::Model>();
-		this->model_->set_constant_buffer(&this->world_);
+		this->model_->set_constant_buffer(&this->cbuffer_);
 		this->model_->set_geometry(geometry);
 		this->model_->set_shader(shader);
-
-		auto proj = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
-		auto view = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
-		this->world_ = DirectX::XMMatrixScaling(.01f, .01f, .01f) * view * proj;
 	}
 	void Update(void) override
 	{
-
+		this->cbuffer_.world_ *= DirectX::XMMatrixRotationY(0.01f);
 	}
 	void Render(const std::unique_ptr<Seed::Graphics> & graphics) override
 	{
