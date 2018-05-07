@@ -60,23 +60,23 @@ bool DirectX11::Run(void)
 	this->SetRenderTarget(this->deffered_, 5);
 	this->SetTexturesFromRenderTarget(this->deffered_);
 
-	// Target: BackBuffer
-	// ターゲットを設定：バックバッファー
-	this->SetRenderTarget(this->back_buffer_, 1);
-	this->SetTexturesFromRenderTarget(this->deffered_);
-
-	
 	for (auto && model : this->rendering_list_[0])
 	{
 		this->RenderModel(model);
 	}
 
 	this->rendering_list_[0].clear();
-	//this->sprites_->Begin();
 
-	//this->sprites_->Draw(this->deffered_.srv_[0].Get(), DirectX::XMFLOAT2(0.f, 0.f), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
+	// Target: BackBuffer
+	// ターゲットを設定：バックバッファー
+	this->SetRenderTarget(this->back_buffer_, 1);
+	this->SetTexturesFromRenderTarget(this->deffered_);
 
-	//this->sprites_->End();
+	this->sprites_->Begin();
+
+	this->sprites_->Draw(this->deffered_.srv_[0].Get(), DirectX::XMFLOAT2(0.f, 0.f), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
+
+	this->sprites_->End();
 
 	// Show
 	// 表示

@@ -31,8 +31,8 @@ public:
 		this->model_->set_shader(shader);
 
 		auto proj = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
-		auto view = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, -5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
-		this->world_ = DirectX::XMMatrixIdentity();
+		auto view = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
+		this->world_ = DirectX::XMMatrixScaling(.01f, .01f, .01f) * view * proj;
 	}
 	void Update(void) override
 	{
