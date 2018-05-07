@@ -9,8 +9,8 @@ namespace Seed
 	class Component
 	{
 	public:
-		Component(const std::shared_ptr<Entity> & entity, std::shared_ptr<Component> & self)
-			: entity_(entity), self_(self) {}
+		Component(std::shared_ptr<Component> & self)
+			: self_(self) {}
 
 	private:
 		std::weak_ptr<Entity> entity_;

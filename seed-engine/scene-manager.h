@@ -16,8 +16,8 @@ namespace Seed
 		SceneManager(const std::unique_ptr<Graphics> & graphics) : graphics_(graphics) {}
 
 	private:
-		std::shared_ptr<Scene> current_scene_ = nullptr;
-		std::shared_ptr<Scene> next_scene_ = nullptr;
+		std::shared_ptr<Scene> current_scene_;
+		std::shared_ptr<Scene> next_scene_;
 
 	public:
 		void Pause(void) const { this->current_scene_->Pause(); }
@@ -28,7 +28,7 @@ namespace Seed
 	public:
 		template<class _Scene, class ... Args> void ChangeScene(const Args &&... args)
 		{
-			this->next_scene_ = std::make_shared<_Scene>(this->next_scene_, args ...);
+			this->next_scene_ = std::make_shared<_Scene>(this->current_scene_, args ...);
 			this->next_scene_->CreateResourceManager(this->graphics_);
 		}
 
@@ -39,6 +39,15 @@ namespace Seed
 	public:
 		bool Run(void)
 		{
+			if (this->current_scene_)
+			{
+				this->pause_ ? this->Pause() : this->Update();
+
+				this->Always();
+
+				this->Render();
+			}
+		
 			if (this->next_scene_)
 			{
 				this->current_scene_.swap(this->next_scene_);
@@ -49,12 +58,6 @@ namespace Seed
 				return (bool)this->current_scene_;
 			}
 
-			this->pause_ ? this->Pause() : this->Update();
-
-			this->Always();
-
-			this->Render();
-		
 			return true;
 		}
 	};

@@ -75,7 +75,7 @@ private:
 	std::vector<std::weak_ptr<Seed::Model>> rendering_list_[kRenderingList];
 
 public:
-	virtual void AddModelToRenderingList(const std::shared_ptr<Seed::Model> & model, int list_num) override;
+	virtual void AddModelToRenderingList(const std::weak_ptr<Seed::Model> model, int list_num) override;
 	virtual void RenderModel(const std::weak_ptr<Seed::Model> & model) override;
 
 private:

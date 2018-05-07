@@ -16,13 +16,13 @@ namespace Seed
 		unsigned int priority_ = 0;
 
 	public:
-		template<class _Geometry> std::weak_ptr<_Geometry> geometry(void) const
+		template<class _Geometry> const std::weak_ptr<_Geometry> geometry(void) const
 		{
-			return std::static_pointer_cast<_Geometry>(this->geometry_);
+			return std::static_pointer_cast<_Geometry>(this->geometry_.lock());
 		}
-		template<class _Shader> std::weak_ptr<_Shader> shader(void) const
+		template<class _Shader> const std::weak_ptr<_Shader> shader(void) const
 		{
-			return std::static_pointer_cast<_Shader>(this->shader_);
+			return std::static_pointer_cast<_Shader>(this->shader_.lock());
 		}
 		void * const constant_buffer(void) const
 		{

@@ -42,7 +42,7 @@ namespace Seed
 		template<class _Component, class ... Args> const std::shared_ptr<_Component> add_component(Args &&... args)
 		{
 			auto & target = this->components_[typeid(_Component).name()];
-			target = std::make_shared<_Component>(this->self_, target, args ...);
+			target = std::make_shared<_Component>(target, args ...);
 			target->set_entity(this->self_);
 			target->OnAdd();
 			return std::static_pointer_cast<_Component>(target);

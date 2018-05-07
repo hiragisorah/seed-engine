@@ -24,7 +24,4 @@ int __stdcall WinMain(HINSTANCE, HINSTANCE, char*, int)
 	engine.set_graphics<DirectX11>();
 
 	engine.Run<TestScene>();
-
-	rewind(stdin);
-	getchar();
 }

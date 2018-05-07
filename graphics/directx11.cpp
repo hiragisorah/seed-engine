@@ -1,6 +1,21 @@
+#include <fstream>
+
+#include <DirectXTK\GeometricPrimitive.h>
 #include <seed-engine\utils.h>
 
 #include "directx11.h"
+
+struct GVertex
+{
+	DirectX::XMFLOAT3 position_;
+	DirectX::XMFLOAT3 normal_;
+	DirectX::XMFLOAT2 uv_;
+};
+
+struct GMesh
+{
+	std::vector<GVertex> vertices_;
+};
 
 void DirectX11::Initialize(void)
 {
@@ -45,33 +60,23 @@ bool DirectX11::Run(void)
 	this->SetRenderTarget(this->deffered_, 5);
 	this->SetTexturesFromRenderTarget(this->deffered_);
 
-	this->sprites_->Begin();
-
-	this->sprites_->SetViewport(this->back_buffer_.vp_);
-	this->sprites_->Draw(this->texture_->srv().Get(), DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White,
-		0.f, DirectX::XMFLOAT2(0.f, 0.f), DirectX::XMFLOAT2(.5f, .5f));
-
-	this->font_->DrawString(this->sprites_.get(), L"あいうえお、はろーわーるど", DirectX::XMFLOAT2(0, 0));
-	this->font_->DrawString(this->sprites_.get(), L"なにがおきてるの、わからない", DirectX::XMFLOAT2(20, 10));
-
-	auto vp = DirectX::XMFLOAT2(this->back_buffer_.vp_.Width, this->back_buffer_.vp_.Height);
-
-	this->sprites_->End();
-
-	this->sprites_->Begin();
-	this->sprites_->Draw(this->deffered_.srv_[0].Get(), DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(.5f, .5f));
-	this->sprites_->End();
-
 	// Target: BackBuffer
 	// ターゲットを設定：バックバッファー
 	this->SetRenderTarget(this->back_buffer_, 1);
 	this->SetTexturesFromRenderTarget(this->deffered_);
 
-	this->sprites_->Begin();
+	
+	for (auto && model : this->rendering_list_[0])
+	{
+		this->RenderModel(model);
+	}
 
-	this->sprites_->Draw(this->deffered_.srv_[0].Get(), Seed::Mul(DirectX::XMFLOAT2(.0f, .0f), vp), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
+	this->rendering_list_[0].clear();
+	//this->sprites_->Begin();
 
-	this->sprites_->End();
+	//this->sprites_->Draw(this->deffered_.srv_[0].Get(), DirectX::XMFLOAT2(0.f, 0.f), nullptr, DirectX::Colors::White, 0.f, DirectX::XMFLOAT2(.0f, .0f), DirectX::XMFLOAT2(1.f, 1.f));
+
+	//this->sprites_->End();
 
 	// Show
 	// 表示
@@ -97,7 +102,38 @@ const std::shared_ptr<Seed::Texture> DirectX11::CreateTexture(std::string file_p
 
 const std::shared_ptr<Seed::Geometry> DirectX11::CreateGeometry(std::string file_path)
 {
-	auto geometry = std::make_shared<Dx11Model>();
+	auto geometry = std::make_shared<Dx11Geometry>();
+
+	std::vector<GMesh> meshes;
+
+	std::ifstream file;
+	file.open(file_path, std::ios::in | std::ios::binary);
+
+	if (file.fail()) return geometry;
+
+	unsigned int mesh_cnt = 0;
+	file >> mesh_cnt;
+
+	meshes.resize(mesh_cnt);
+
+	for (unsigned int n = 0; n < mesh_cnt; ++n)
+	{
+		unsigned int vtx_cnt = 0;
+		file.read((char*)&vtx_cnt, sizeof(unsigned int));
+
+		meshes[n].vertices_.resize(vtx_cnt);
+		for (unsigned int i = 0; i < vtx_cnt; ++i)
+		{
+			file.read((char*)&meshes[n].vertices_[i], sizeof(GVertex));
+		}
+	}
+
+	file.close();
+
+	geometry->CreateVertexBuffer(this->device_.Get(), meshes[0].vertices_);
+	
+	geometry->set_draw_mode(Dx11Geometry::DrawMode::DM_DEFAULT);
+	geometry->set_topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return geometry;
 }
@@ -332,7 +368,7 @@ void DirectX11::CreateDeffered(void)
 	this->device_->CreateDepthStencilView(this->deffered_.ds_tex_.Get(), nullptr, this->deffered_.dsv_.GetAddressOf());
 }
 
-void DirectX11::AddModelToRenderingList(const std::shared_ptr<Seed::Model>& model, int list_num)
+void DirectX11::AddModelToRenderingList(const std::weak_ptr<Seed::Model> model, int list_num)
 {
 	this->rendering_list_[list_num].emplace_back(model);
 }
@@ -359,20 +395,20 @@ void DirectX11::RenderModel(const std::weak_ptr<Seed::Model>& model)
 	this->context_->IASetVertexBuffers(0, 1, geometry->vertex_buffer().GetAddressOf(), &vertex_size, &offset);
 	this->context_->IASetPrimitiveTopology(geometry->topology());
 
-	if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_DEFAULT)
+	if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_DEFAULT)
 	{
-		this->context_->Draw(geometry->index_num(), 0);
+		this->context_->Draw(geometry->vertex_num(), 0);
 	}
-	else if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_INDEXED)
+	else if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_INDEXED)
 	{
 		this->context_->IASetIndexBuffer(geometry->index_buffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 		this->context_->DrawIndexed(geometry->index_num(), 0, 0);
 	}
-	else if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_INSTANCED)
+	else if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_INSTANCED)
 	{
 
 	}
-	else if (geometry->draw_mode == Dx11Geometry::DrawMode::DM_INSTANCED_INDEXED)
+	else if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_INSTANCED_INDEXED)
 	{
 		this->context_->IASetIndexBuffer(geometry->index_buffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 	}

@@ -195,7 +195,8 @@ namespace DirectX
             // Performs per-frame processing for the audio engine, returns false if in 'silent mode'
 
         bool __cdecl Reset(_In_opt_ const WAVEFORMATEX* wfx = nullptr, _In_opt_z_ const wchar_t* deviceId = nullptr);
-            // Reset audio engine from critical error/silent mode using a new device; can also 'migrate' the graph
+            // Reset audio engine from critical error/silent mode using a 
+		device; can also 'migrate' the graph
             // Returns true if succesfully reset, false if in 'silent mode' due to no default device
             // Note: One shots are lost, all SoundEffectInstances are in the STOPPED state after successful reset
 

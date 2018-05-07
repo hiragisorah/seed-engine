@@ -33,4 +33,37 @@ public:
 	const unsigned int vertex_num(void) const { return this->vertex_num_; }
 	const unsigned int index_num(void) const { return this->index_num_; }
 	const DrawMode draw_mode(void) const { return this->draw_mode_; }
+
+public:
+	void set_draw_mode(const DrawMode & draw_mode) { this->draw_mode_ = draw_mode; }
+	void set_topology(const D3D11_PRIMITIVE_TOPOLOGY & topology) { this->topology_ = topology; }
+
+public:
+	template<class _Vertex> void CreateVertexBuffer(ID3D11Device * device, std::vector<_Vertex> & vertices)
+	{
+		D3D11_BUFFER_DESC bd = {};
+		bd.ByteWidth = vertices.size() * sizeof(_Vertex);
+		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bd.Usage = D3D11_USAGE_DEFAULT;
+
+		D3D11_SUBRESOURCE_DATA sd = {};
+		sd.pSysMem = vertices.data();
+
+		device->CreateBuffer(&bd, &sd, this->vertex_buffer_.GetAddressOf());
+
+		this->vertex_size_ = sizeof(_Vertex);
+		this->vertex_num_ = vertices.size();
+	}
+	template<class _Index> void CreateIndexBuffer(ID3D11Device * device, std::vector<_Index> & indices)
+	{
+		D3D11_BUFFER_DESC bd;
+		bd.ByteWidth = indices.size() * sizeof(_Index);
+		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		bd.Usage = D3D11_USAGE_DEFAULT;
+
+		D3D11_SUBRESOURCE_DATA sd = {};
+		sd.pSysMem = indices.data();
+
+		device->CreateBuffer(&bd, &sd, this->index_buffer_.GetAddressOf());
+	}
 };

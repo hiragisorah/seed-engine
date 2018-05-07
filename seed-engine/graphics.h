@@ -32,8 +32,8 @@ namespace Seed
 		virtual void Finalize(void) {}
 
 	public:
-		virtual void AddModelToRenderingList(const std::shared_ptr<Model> & model, int list_num) {}
-		virtual void RenderModel(const std::weak_ptr<Model> & model) {}
+		virtual void AddModelToRenderingList(const std::weak_ptr<Model> model, int list_num) { model; list_num; }
+		virtual void RenderModel(const std::weak_ptr<Model> & model) { model; }
 
 	public:
 		virtual const std::shared_ptr<Texture> CreateTexture(std::string file_path) { return std::make_shared<Texture>(); }

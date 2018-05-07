@@ -70,7 +70,7 @@ namespace DirectX
        // Create input layout for drawing with a custom effect.
         void __cdecl CreateInputLayout(_In_ IEffect* effect, _Outptr_ ID3D11InputLayout** inputLayout) const;
 
-    private:
+	public:
         GeometricPrimitive();
 
         // Private implementation.

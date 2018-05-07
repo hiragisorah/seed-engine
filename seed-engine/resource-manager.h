@@ -5,6 +5,7 @@
 
 #include "graphics.h"
 #include "texture.h"
+#include "geometry.h"
 #include "shader.h"
 
 namespace Seed
@@ -22,7 +23,7 @@ namespace Seed
 
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Texture>> textures_;
-		std::unordered_map<std::string, std::shared_ptr<Model>> models_;
+		std::unordered_map<std::string, std::shared_ptr<Geometry>> geometries_;
 		std::unordered_map<std::string, std::shared_ptr<Shader>> shaders_;
 
 	public:
@@ -32,11 +33,11 @@ namespace Seed
 			auto texture = this->graphics_->CreateTexture(file_path);
 			this->textures_[file_name] = texture;
 		}
-		void load_model(const std::string & file_name)
+		void load_geometry(const std::string & file_name)
 		{
-			auto file_path = "resource/model/" + file_name;
-			auto model = this->graphics_->CreateModel(file_path);
-			this->models_[file_name] = model;
+			auto file_path = "resource/geometry/" + file_name;
+			auto geometry = this->graphics_->CreateGeometry(file_path);
+			this->geometries_[file_name] = geometry;
 		}
 		void load_shader(const std::string & file_name)
 		{
@@ -52,7 +53,7 @@ namespace Seed
 		}
 		void unload_model(const std::string & file_name)
 		{
-			this->models_[file_name].reset();
+			this->geometries_[file_name].reset();
 		}
 		void unload_shader(const std::string & file_name)
 		{
@@ -64,9 +65,9 @@ namespace Seed
 		{
 			return this->textures_[file_name];
 		}
-		const std::shared_ptr<Model> & model(const std::string & file_name)
+		const std::shared_ptr<Geometry> & geometry(const std::string & file_name)
 		{
-			return this->models_[file_name];
+			return this->geometries_[file_name];
 		}
 		const std::shared_ptr<Shader> & shader(const std::string & file_name)
 		{

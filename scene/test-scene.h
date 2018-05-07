@@ -11,6 +11,9 @@ public:
 public:
 	void Initialize(void) override
 	{
+		this->resource_manager()->load_geometry("test.geometry");
+		this->resource_manager()->load_shader("test.hlsl");
+
 		this->Create<TestEntity>();
 	}
 };
