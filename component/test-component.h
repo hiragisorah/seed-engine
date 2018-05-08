@@ -29,9 +29,9 @@ public:
 	void OnAdd(void) override
 	{
 		auto & resource_manager = this->entity().lock()->scene().lock()->resource_manager();
-		auto geometry           = resource_manager->geometry("test.geometry");
+		auto geometry           = resource_manager->geometry("hand.geometry");
 		auto shader             = resource_manager->shader("simple-deffered.hlsl");
-		this->cbuffer_.world_   = DirectX::XMMatrixScaling(.01f, .01f, .01f);
+		this->cbuffer_.world_   = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
 		this->cbuffer_.view_    = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
 		this->cbuffer_.proj_    = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
 		this->model_            = std::make_shared<Seed::Model>();
@@ -46,6 +46,6 @@ public:
 	}
 	void Render(const std::unique_ptr<Seed::Graphics> & graphics) override
 	{
-		graphics->AddModelToRenderingList(this->model_, 0);
+		graphics->AddModelToRenderingList(this->model_);
 	}
 };

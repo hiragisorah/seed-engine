@@ -27,13 +27,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -193,6 +193,10 @@
     <ClInclude Include="entity\test-entity.h" />
     <ClInclude Include="graphics\directx11.h" />
     <ClInclude Include="geometry\dx11-geometry.h" />
+    <ClInclude Include="graphics\directx11\blend-state.h" />
+    <ClInclude Include="graphics\directx11\rasterizer-state.h" />
+    <ClInclude Include="graphics\directx11\render-target.h" />
+    <ClInclude Include="seed-engine\render-target.h" />
     <ClInclude Include="scene\test-scene.h" />
     <ClInclude Include="seed-engine\component.h" />
     <ClInclude Include="seed-engine\engine.h" />

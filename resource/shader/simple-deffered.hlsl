@@ -48,8 +48,11 @@ PsOut PS(VsOut input)
 
     output.color_ = 1;
     output.position_ = input.position_;
+    output.position_.a = 1.f;
     output.normal_ = input.normal_;
-    output.depth_ = input.sv_position_.z / input.sv_position_.w;
+    output.normal_.a = 1.f;
+    output.depth_.x = input.sv_position_.z / input.sv_position_.w;
+    output.depth_.a = 1.f;
 
     return output;
 }

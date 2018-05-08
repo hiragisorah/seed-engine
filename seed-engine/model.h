@@ -4,11 +4,29 @@
 
 #include "geometry.h"
 #include "shader.h"
+#include "render-target.h"
 
 namespace Seed
 {
 	class Model
 	{
+	public:
+		Model(void)
+			: viewport_(VP_SIMPLE)
+			, depth_stencil_(DS_SIMPLE)
+			, render_targets_({RT_BACKBUFFER})
+			{}
+
+	private:
+		VP viewport_;
+		DS depth_stencil_;
+		std::vector<RT> render_targets_;
+
+	public:
+		const VP & viewport(void) const { return this->viewport_; }
+		const DS & depth_stencil(void) const { return this->depth_stencil_; }
+		const std::vector<RT> & render_targets(void) const { return this->render_targets_; }
+
 	private:
 		std::weak_ptr<Geometry> geometry_;
 		std::weak_ptr<Shader> shader_;
