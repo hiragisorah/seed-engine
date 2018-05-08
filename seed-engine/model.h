@@ -1,10 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include "geometry.h"
 #include "shader.h"
 #include "render-target.h"
+#include "rasterizer-state.h"
 
 namespace Seed
 {
@@ -12,17 +14,26 @@ namespace Seed
 	{
 	public:
 		Model(void)
-			: viewport_(VP_SIMPLE)
+			: rasterizer_state_(RS_WIREFRAME)
+			, viewport_(VP_SIMPLE)
 			, depth_stencil_(DS_SIMPLE)
-			, render_targets_({RT_BACKBUFFER})
-			{}
+			, render_targets_({ RT_BACKBUFFER })
+			, shader_file_("simple-deffered")
+			, geometry_file_("duck")
+		{}
 
 	private:
+		RS rasterizer_state_;
 		VP viewport_;
 		DS depth_stencil_;
 		std::vector<RT> render_targets_;
 
+	private:
+		std::string shader_file_;
+		std::string geometry_file_;
+
 	public:
+		const RS & rasterizer_state(void) const { return this->rasterizer_state_; }
 		const VP & viewport(void) const { return this->viewport_; }
 		const DS & depth_stencil(void) const { return this->depth_stencil_; }
 		const std::vector<RT> & render_targets(void) const { return this->render_targets_; }

@@ -37,9 +37,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> swap_chain_;
 
-public:
-	std::unique_ptr<RasterizerState> rasterizer_state_;
-
 private:
 	std::shared_ptr<DirectX::SpriteBatch> sprites_;
 	std::shared_ptr<DirectX::SpriteFont> font_;

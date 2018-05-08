@@ -43,13 +43,11 @@ void DirectX11::Initialize(void)
 		feature_level, &this->context_);
 
 	this->set_render_target<Dx11RenderTarget>(this->device_, this->context_, this->swap_chain_, this->window());
-	this->rasterizer_state_ = std::make_unique<RasterizerState>(this->device_, this->context_);
-	this->rasterizer_state_->Initialize();
+	this->set_rasterizer_state<Dx11RasterizerState>(this->device_, this->context_);
 
 	this->sprites_ = std::make_shared<DirectX::SpriteBatch>(this->context_.Get());
 	this->texture_ = std::static_pointer_cast<Dx11Texture>(this->CreateTexture("resource/texture/grid.bmp"));
 	this->font_ = std::make_shared<DirectX::SpriteFont>(this->device_.Get(), L"resource/font/myfile.spritefont");
-	this->rasterizer_state_->Setup(RS_WIREFRAME);
 }
 
 void DirectX11::Finalize(void)
@@ -104,7 +102,7 @@ const std::shared_ptr<Seed::Geometry> DirectX11::CreateGeometry(std::string file
 
 	geometry->CreateVertexBuffer(this->device_.Get(), meshes[0].vertices_);
 	
-	geometry->set_draw_mode(Dx11Geometry::DrawMode::DM_DEFAULT);
+	geometry->set_draw_mode(DM_DEFAULT);
 	geometry->set_topology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return geometry;
@@ -174,20 +172,20 @@ void DirectX11::RenderModel(const std::weak_ptr<Seed::Model>& model)
 	this->context_->IASetVertexBuffers(0, 1, geometry->vertex_buffer().GetAddressOf(), &vertex_size, &offset);
 	this->context_->IASetPrimitiveTopology(geometry->topology());
 
-	if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_DEFAULT)
+	if (geometry->draw_mode() == DM_DEFAULT)
 	{
 		this->context_->Draw(geometry->vertex_num(), 0);
 	}
-	else if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_INDEXED)
+	else if (geometry->draw_mode() == DM_INDEXED)
 	{
 		this->context_->IASetIndexBuffer(geometry->index_buffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 		this->context_->DrawIndexed(geometry->index_num(), 0, 0);
 	}
-	else if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_INSTANCED)
+	else if (geometry->draw_mode() == DM_INSTANCED)
 	{
 
 	}
-	else if (geometry->draw_mode() == Dx11Geometry::DrawMode::DM_INSTANCED_INDEXED)
+	else if (geometry->draw_mode() == DM_INSTANCED_INDEXED)
 	{
 		this->context_->IASetIndexBuffer(geometry->index_buffer().Get(), DXGI_FORMAT_R32_UINT, 0);
 	}

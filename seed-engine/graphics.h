@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "window.h"
 #include "texture.h"
@@ -10,6 +11,7 @@
 #include "shader.h"
 #include "model.h"
 #include "render-target.h"
+#include "rasterizer-state.h"
 
 namespace Seed
 {
@@ -36,6 +38,7 @@ namespace Seed
 
 	private:
 		std::unique_ptr<RenderTarget> render_target_;
+		std::unique_ptr<RasterizerState> rasterizer_state_;
 
 	public:
 		template<class _RenderTarget, class ... Args> void set_render_target(const Args &... args)
@@ -43,19 +46,53 @@ namespace Seed
 			this->render_target_ = std::make_unique<_RenderTarget>(args ...);
 			this->render_target_->Initialize();
 		}
+		template<class _RasterizerState, class ... Args> void set_rasterizer_state(const Args &... args)
+		{
+			this->rasterizer_state_ = std::make_unique<_RasterizerState>(args ...);
+			this->rasterizer_state_->Initialize();
+		}
+
+	private:
+		unsigned int fps_;
+		std::chrono::steady_clock::time_point start_timer_;
+
+	private:
+		void CalcFps(void)
+		{
+			auto now_timer = std::chrono::steady_clock::now();
+			auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(now_timer - this->start_timer_);
+			this->fps_++;
+			if (diff.count() >= 1000)
+			{
+				printf("%6d\r", this->fps_);
+				this->fps_ = 0;
+				this->start_timer_ = now_timer;
+			}
+		}
 
 	public:
 		virtual bool Run(void)
 		{
 			this->render_target_->Clear();
 
-			for (auto && model : this->model_list_)
+			for (unsigned int n = 0; n < this->model_list_.size(); ++n)
 			{
-				this->render_target_->Setup(model.lock()->viewport(), model.lock()->render_targets(), model.lock()->depth_stencil());
-				this->RenderModel(model);
+				auto & model = this->model_list_[n];
+				if (model.expired())
+				{
+					this->model_list_.erase(this->model_list_.begin() + n);
+				}
+				else
+				{
+					this->render_target_->Setup(model.lock()->viewport(), model.lock()->render_targets(), model.lock()->depth_stencil());
+					this->rasterizer_state_->Setup(model.lock()->rasterizer_state());
+					this->RenderModel(model);
+				}
 			}
 
 			this->Present();
+
+			this->CalcFps();
 
 			return true;
 		}

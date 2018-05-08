@@ -27,7 +27,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -80,6 +80,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -196,6 +197,8 @@
     <ClInclude Include="graphics\directx11\blend-state.h" />
     <ClInclude Include="graphics\directx11\rasterizer-state.h" />
     <ClInclude Include="graphics\directx11\render-target.h" />
+    <ClInclude Include="seed-engine\blend-state.h" />
+    <ClInclude Include="seed-engine\rasterizer-state.h" />
     <ClInclude Include="seed-engine\render-target.h" />
     <ClInclude Include="scene\test-scene.h" />
     <ClInclude Include="seed-engine\component.h" />
@@ -205,6 +208,7 @@
     <ClInclude Include="seed-engine\geometry.h" />
     <ClInclude Include="seed-engine\model.h" />
     <ClInclude Include="seed-engine\resource-manager.h" />
+    <ClInclude Include="seed-engine\sampler-state.h" />
     <ClInclude Include="seed-engine\scene-manager.h" />
     <ClInclude Include="seed-engine\scene.h" />
     <ClInclude Include="seed-engine\shader.h" />

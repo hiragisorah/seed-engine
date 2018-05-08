@@ -5,17 +5,16 @@
 
 #include <seed-engine\geometry.h>
 
+enum DM
+{
+	DM_DEFAULT = 0,
+	DM_INDEXED,
+	DM_INSTANCED,
+	DM_INSTANCED_INDEXED
+};
+
 class Dx11Geometry : public Seed::Geometry
 {
-public:
-	enum DrawMode
-	{
-		DM_DEFAULT = 0,
-		DM_INDEXED,
-		DM_INSTANCED,
-		DM_INSTANCED_INDEXED
-	};
-
 private:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> index_buffer_;
@@ -23,7 +22,7 @@ private:
 	unsigned int vertex_size_ = 0;
 	unsigned int vertex_num_ = 0;
 	unsigned int index_num_ = 0;
-	DrawMode draw_mode_ = DM_DEFAULT;
+	DM draw_mode_ = DM_DEFAULT;
 
 public:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer(void) const { return this->vertex_buffer_; }
@@ -32,10 +31,10 @@ public:
 	const D3D11_PRIMITIVE_TOPOLOGY topology(void) const { return this->topology_; }
 	const unsigned int vertex_num(void) const { return this->vertex_num_; }
 	const unsigned int index_num(void) const { return this->index_num_; }
-	const DrawMode draw_mode(void) const { return this->draw_mode_; }
+	const DM draw_mode(void) const { return this->draw_mode_; }
 
 public:
-	void set_draw_mode(const DrawMode & draw_mode) { this->draw_mode_ = draw_mode; }
+	void set_draw_mode(const DM & draw_mode) { this->draw_mode_ = draw_mode; }
 	void set_topology(const D3D11_PRIMITIVE_TOPOLOGY & topology) { this->topology_ = topology; }
 
 public:

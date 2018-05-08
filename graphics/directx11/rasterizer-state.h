@@ -6,32 +6,16 @@
 #include <d3d11.h>
 #include <wrl\client.h>
 
-enum RS
-{
-	RS_CULL_NONE = 0,
-	RS_CW,
-	RS_CCW,
-	RS_WIREFRAME,
-	RS_NUM
-};
+#include <seed-engine\rasterizer-state.h>
 
-class RasterizerState
+class Dx11RasterizerState : public Seed::RasterizerState
 {
 public:
-	RasterizerState(const Microsoft::WRL::ComPtr<ID3D11Device> & device, const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context)
+	Dx11RasterizerState(const Microsoft::WRL::ComPtr<ID3D11Device> & device, const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context)
 		: device_(device)
 		, context_(context)
 	{
 		
-	}
-
-public:
-	void Initialize(void)
-	{
-		this->create_cull_none();
-		this->create_cull_clock_wise();
-		this->create_cull_counter_clock_wise();
-		this->create_wireframe();
 	}
 
 private:
@@ -39,7 +23,7 @@ private:
 	const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context_;
 
 private:
-	void create_cull_none(void)
+	void create_cull_none(void) override
 	{
 		D3D11_RASTERIZER_DESC desc = {};
 
@@ -50,10 +34,10 @@ private:
 
 		HRESULT hr = this->device_->CreateRasterizerState(&desc, this->rasterizer_states_[RS_CULL_NONE].GetAddressOf());
 
-		if (SUCCEEDED(hr))
+		if (FAILED(hr))
 			std::cout << "Filed on create: RasterizerState - cull_none" << std::endl;
 	}
-	void create_cull_clock_wise(void)
+	void create_cull_clock_wise(void) override
 	{
 		D3D11_RASTERIZER_DESC desc = {};
 
@@ -64,10 +48,10 @@ private:
 
 		HRESULT hr = this->device_->CreateRasterizerState(&desc, this->rasterizer_states_[RS_CW].GetAddressOf());
 
-		if (SUCCEEDED(hr))
+		if (FAILED(hr))
 			std::cout << "Filed on create: RasterizerState - cull_clock_wise" << std::endl;
 	}
-	void create_cull_counter_clock_wise(void)
+	void create_cull_counter_clock_wise(void) override
 	{
 		D3D11_RASTERIZER_DESC desc = {};
 
@@ -78,10 +62,10 @@ private:
 
 		HRESULT hr = this->device_->CreateRasterizerState(&desc, this->rasterizer_states_[RS_CCW].GetAddressOf());
 
-		if (SUCCEEDED(hr))
+		if (FAILED(hr))
 			std::cout << "Filed on create: RasterizerState - cull_counter_clock_wise" << std::endl;
 	}
-	void create_wireframe(void)
+	void create_wireframe(void) override
 	{
 		D3D11_RASTERIZER_DESC desc = {};
 
@@ -92,7 +76,7 @@ private:
 
 		HRESULT hr = this->device_->CreateRasterizerState(&desc, this->rasterizer_states_[RS_WIREFRAME].GetAddressOf());
 
-		if (SUCCEEDED(hr))
+		if (FAILED(hr))
 			std::cout << "Filed on create: RasterizerState - wire_frame" << std::endl;
 	}
 
@@ -100,7 +84,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizer_states_[RS_NUM];
 
 public:
-	void Setup(const RS & rasterizer_state)
+	void Setup(const RS & rasterizer_state) override
 	{
 		this->context_->RSSetState(this->rasterizer_states_[rasterizer_state].Get());
 	}

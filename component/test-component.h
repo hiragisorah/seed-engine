@@ -29,6 +29,7 @@ public:
 	void OnAdd(void) override
 	{
 		auto & resource_manager = this->entity().lock()->scene().lock()->resource_manager();
+		auto & graphics         = resource_manager->graphics();
 		auto geometry           = resource_manager->geometry("hand.geometry");
 		auto shader             = resource_manager->shader("simple-deffered.hlsl");
 		this->cbuffer_.world_   = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
@@ -39,13 +40,11 @@ public:
 		this->model_->set_constant_buffer(&this->cbuffer_);
 		this->model_->set_geometry(geometry);
 		this->model_->set_shader(shader);
+
+		graphics->AddModelToRenderingList(this->model_);
 	}
 	void Update(void) override
 	{
 		this->cbuffer_.world_ *= DirectX::XMMatrixRotationY(0.01f);
-	}
-	void Render(const std::unique_ptr<Seed::Graphics> & graphics) override
-	{
-		graphics->AddModelToRenderingList(this->model_);
 	}
 };
