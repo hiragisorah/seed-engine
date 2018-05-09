@@ -86,6 +86,7 @@ namespace Seed
 
 			this->Present();
 
+
 			this->CalcFps();
 
 			return true;
