@@ -6,6 +6,7 @@ namespace Seed
 {
 	enum RT
 	{
+		RT_NONE = -1,
 		RT_BACKBUFFER,
 		RT_COLOR_MAP,
 		RT_POSITION_MAP,
@@ -25,6 +26,7 @@ namespace Seed
 	enum DS
 	{
 		DS_SIMPLE = 0,
+		DS_DEFFERED,
 		DS_SHADOW_MAP,
 		DS_NUM
 	};
@@ -48,6 +50,7 @@ namespace Seed
 			this->create_shadow_map();
 
 			this->create_simple_depth_stencil();
+			this->create_deffered_depth_stencil();
 			this->create_shadow_map_depth_stencil();
 		}
 
@@ -61,6 +64,7 @@ namespace Seed
 		virtual void create_depth_map(void) = 0;
 		virtual void create_shadow_map(void) = 0;
 		virtual void create_simple_depth_stencil(void) = 0;
+		virtual void create_deffered_depth_stencil(void) = 0;
 		virtual void create_shadow_map_depth_stencil(void) = 0;
 
 	public:

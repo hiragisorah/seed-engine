@@ -226,6 +226,26 @@ private:
 		this->device_->CreateTexture2D(&tex_desc, nullptr, tex2d.GetAddressOf());
 		this->device_->CreateDepthStencilView(tex2d.Get(), nullptr, this->deptsh_stencil_[DS_SIMPLE].GetAddressOf());
 	}
+	void create_deffered_depth_stencil(void) override
+	{
+		Microsoft::WRL::ComPtr<ID3D11Texture2D> tex2d;
+		//深度マップテクスチャをレンダーターゲットにする際のデプスステンシルビュー用のテクスチャーを作成
+		D3D11_TEXTURE2D_DESC tex_desc = {};
+		tex_desc.Width = this->window_->width();
+		tex_desc.Height = this->window_->height();
+		tex_desc.MipLevels = 1;
+		tex_desc.ArraySize = 1;
+		tex_desc.Format = DXGI_FORMAT_D32_FLOAT;
+		tex_desc.SampleDesc.Count = 1;
+		tex_desc.SampleDesc.Quality = 0;
+		tex_desc.Usage = D3D11_USAGE_DEFAULT;
+		tex_desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		tex_desc.CPUAccessFlags = 0;
+		tex_desc.MiscFlags = 0;
+
+		this->device_->CreateTexture2D(&tex_desc, nullptr, tex2d.GetAddressOf());
+		this->device_->CreateDepthStencilView(tex2d.Get(), nullptr, this->deptsh_stencil_[DS_DEFFERED].GetAddressOf());
+	}
 	void create_shadow_map_depth_stencil(void) override
 	{
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> tex2d;
@@ -277,13 +297,14 @@ private:
 	}
 	void SetupTextures(const std::vector<RT> & rts) override
 	{
-		ID3D11ShaderResourceView * srvs[8] = {};
-
 		for (unsigned int n = 0; n < rts.size(); ++n)
-			srvs[n] = this->rtv_and_srv_[rts[n]].srv_.Get();
-
-		this->context_->VSSetShaderResources(1, rts.size(), srvs);
-		this->context_->GSSetShaderResources(1, rts.size(), srvs);
-		this->context_->PSSetShaderResources(1, rts.size(), srvs);
+		{
+			if (rts[n] != RT_NONE)
+			{
+				this->context_->VSSetShaderResources(n, 1, this->rtv_and_srv_[rts[n]].srv_.GetAddressOf());
+				this->context_->GSSetShaderResources(n, 1, this->rtv_and_srv_[rts[n]].srv_.GetAddressOf());
+				this->context_->PSSetShaderResources(n, 1, this->rtv_and_srv_[rts[n]].srv_.GetAddressOf());
+			}
+		}
 	}
 };

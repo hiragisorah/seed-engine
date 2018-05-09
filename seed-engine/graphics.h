@@ -29,6 +29,7 @@ namespace Seed
 
 	public:
 		std::vector<std::weak_ptr<Renderer>> rendering_list_;
+		std::vector<std::weak_ptr<Renderer>> final_rendering_;
 
 	public:
 		virtual void Initialize(void) = 0;
@@ -71,6 +72,7 @@ namespace Seed
 		{
 			this->render_target_->Clear();
 
+
 			for (unsigned int n = 0; n < this->rendering_list_.size(); ++n)
 			{
 				auto & renderer = this->rendering_list_[n];
@@ -84,8 +86,20 @@ namespace Seed
 				}
 			}
 
-			this->Present();
+			for (unsigned int n = 0; n < this->final_rendering_.size(); ++n)
+			{
+				auto & renderer = this->final_rendering_[n];
+				if (renderer.expired())
+				{
+					this->final_rendering_.erase(this->final_rendering_.begin() + n);
+				}
+				else
+				{
+					this->Rendering(renderer);
+				}
+			}
 
+			this->Present();
 
 			this->CalcFps();
 
@@ -97,13 +111,20 @@ namespace Seed
 		{
 			auto renderer = renderer_weak.lock();
 			this->render_target_->Setup(renderer->viewport(), renderer->render_targets(), renderer->depth_stencil());
+			this->render_target_->SetupTextures(renderer->setup_textures());
 			this->rasterizer_state_->Setup(renderer->rasterizer_state());
 			this->shader_->Setup(renderer->shader_file(), renderer->constant_buffer());
 			this->model_->Draw(renderer->model_file());
 		}
 
 	public:
-		void AddRendererToRenderingList(const std::weak_ptr<Renderer> renderer) { this->rendering_list_.emplace_back(renderer); }
+		void AddRendererToRenderingList(const std::weak_ptr<Renderer> renderer)
+		{
+			if (renderer.lock()->render_targets()[0] == RT_BACKBUFFER)
+				this->final_rendering_.emplace_back(renderer);
+			else
+				this->rendering_list_.emplace_back(renderer);
+		}
 
 	private:
 		virtual void Present(void) = 0;

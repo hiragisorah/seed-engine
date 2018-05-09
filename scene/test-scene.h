@@ -17,13 +17,17 @@ public:
 	void Initialize(void) override
 	{
 		this->graphics()->model()->Load("hand");
-		this->graphics()->shader()->Load("simple-deffered");
+		this->graphics()->model()->Load("jeep");
+		this->graphics()->shader()->Load("simple3d-backbuffer");
+		this->graphics()->shader()->Load("simple3d-deffered");
 
 		this->Create<TestEntity>();
 	}
 	void Finalize(void) override
 	{
+		this->graphics()->model()->Unload("jeep");
 		this->graphics()->model()->Unload("hand");
-		this->graphics()->shader()->Unload("simple-deffered");
+		this->graphics()->shader()->Unload("simple3d-backbuffer");
+		this->graphics()->shader()->Unload("simple3d-deffered");
 	}
 };

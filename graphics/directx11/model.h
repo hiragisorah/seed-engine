@@ -9,6 +9,7 @@
 #include <wrl\client.h>
 #include <d3d11.h>
 #include <DirectXMath.h>
+#include <DirectXTK\WICTextureLoader.h>
 
 #include <seed-engine\model.h>
 
@@ -16,6 +17,7 @@ class Dx11Model : public Seed::Model
 {
 	struct MeshData
 	{
+		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
 		unsigned int vertex_size_;
 		unsigned int vertex_num_;
@@ -55,6 +57,7 @@ private:
 
 		struct Mesh
 		{
+			std::string texture_name_;
 			std::vector<Vertex> vertices_;
 		};
 
@@ -92,6 +95,8 @@ private:
 
 		for (unsigned int n = 0; n < mesh_cnt; ++n)
 		{
+			std::wstring w_file_path = L"resource/texture/" + std::wstring(meshes[n].texture_name_.begin(), meshes[n].texture_name_.end());
+			DirectX::CreateWICTextureFromFile(this->device_.Get(), w_file_path.c_str(), nullptr, model->meshes_[n].texture_.GetAddressOf());
 			this->CreateVertexBuffer(model->meshes_[n], meshes[n].vertices_);
 		}
 	}
