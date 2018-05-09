@@ -1,61 +1,69 @@
 #pragma once
 
-#include <d3d11.h>
-#include <d3dcompiler.h>
-#include <wrl\client.h>
-
 #include <memory>
 #include <string>
 #include <vector>
 
-#include <DirectXTK\DirectXTex.h>
-#include <DirectXTK\WICTextureLoader.h>
-#include <DirectXTK\SpriteBatch.h>
-#include <DirectXTK\SpriteFont.h>
-#include <DirectXTK\Keyboard.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <wrl\client.h>
 
 #include <seed-engine\graphics.h>
-#include <texture\dx11-texture.h>
-#include <geometry\dx11-geometry.h>
-#include <shader\dx11-shader.h>
 
 #include "directx11\render-target.h"
 #include "directx11\rasterizer-state.h"
+#include "directx11\model.h"
+#include "directx11\shader.h"
 
 #pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "d3dcompiler.lib")
 #pragma comment(lib, "DirectXTex.lib")
 
 class DirectX11 : public Seed::Graphics
 {
 public:
 	DirectX11(const std::unique_ptr<Seed::Window> & window)
-		: Graphics(window) {}
+		: Graphics(window)
+	{}
 
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> device_;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> swap_chain_;
 
-private:
-	std::shared_ptr<DirectX::SpriteBatch> sprites_;
-	std::shared_ptr<DirectX::SpriteFont> font_;
-	std::shared_ptr<Dx11Texture> texture_;
-
 public:
-	void Initialize(void) override;
-	void Finalize(void) override;
-	void Present(void) override;
+	void Initialize(void) override
+	{
+		// デバイスとスワップチェーンの作成
+		DXGI_SWAP_CHAIN_DESC sd;
+		memset(&sd, 0, sizeof(sd));
+		sd.BufferCount = 1;
+		sd.BufferDesc.Width = this->window()->width();
+		sd.BufferDesc.Height = this->window()->height();
+		sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		sd.BufferDesc.RefreshRate.Numerator = 60;
+		sd.BufferDesc.RefreshRate.Denominator = 1;
+		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+		sd.OutputWindow = this->window()->hwnd();
+		sd.SampleDesc.Count = 1;
+		sd.SampleDesc.Quality = 0;
+		sd.Windowed = true;
 
-public:
-	const std::shared_ptr<Seed::Texture> CreateTexture(std::string file_path) override;
-	const std::shared_ptr<Seed::Geometry> CreateGeometry(std::string file_path) override;
-	const std::shared_ptr<Seed::Shader> CreateShader(std::string file_path) override;
+		D3D_FEATURE_LEVEL feature_levels = D3D_FEATURE_LEVEL_11_0;
+		D3D_FEATURE_LEVEL * feature_level = nullptr;
 
-public:
-	virtual void RenderModel(const std::weak_ptr<Seed::Model> & model) override;
+		D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
+			0, &feature_levels, 1, D3D11_SDK_VERSION, &sd, &this->swap_chain_, &this->device_,
+			feature_level, &this->context_);
 
-private:
-	void CreateInputLayoutAndConstantBufferFromShader(ID3D11InputLayout ** layout, ID3DBlob * blob, ID3D11Buffer ** cbuffer);
-	DXGI_FORMAT GetDxgiFormat(D3D_REGISTER_COMPONENT_TYPE type, BYTE mask);
+		this->set_render_target<Dx11RenderTarget>(this->device_, this->context_, this->swap_chain_, this->window());
+		this->set_rasterizer_state<Dx11RasterizerState>(this->device_, this->context_);
+		this->set_shader<Dx11Shader>(this->device_, this->context_);
+		this->set_model<Dx11Model>(this->device_, this->context_);
+	};
+	void Finalize(void) override {}
+	void Present(void) override
+	{
+		this->swap_chain_->Present(1, 0);
+	}
 };

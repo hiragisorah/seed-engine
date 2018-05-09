@@ -9,11 +9,11 @@ namespace Seed
 {
 	class SceneManager
 	{
-	private:
-		const std::unique_ptr<Graphics> & graphics_;
-
 	public:
 		SceneManager(const std::unique_ptr<Graphics> & graphics) : graphics_(graphics) {}
+
+	private:
+		const std::unique_ptr<Graphics> & graphics_;
 
 	private:
 		std::shared_ptr<Scene> current_scene_;
@@ -26,10 +26,9 @@ namespace Seed
 		void Render(void) const { this->current_scene_->Render(this->graphics_); }
 
 	public:
-		template<class _Scene, class ... Args> void ChangeScene(const Args &&... args)
+		template<class _Scene, class ... Args> void ChangeScene(const Args &... args)
 		{
-			this->next_scene_ = std::make_shared<_Scene>(this->current_scene_, args ...);
-			this->next_scene_->CreateResourceManager(this->graphics_);
+			this->next_scene_ = std::make_shared<_Scene>(this->current_scene_, this->graphics_, args ...);
 		}
 
 	private:

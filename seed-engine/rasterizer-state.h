@@ -1,16 +1,16 @@
 #pragma once
 
-enum RS
-{
-	RS_CULL_NONE = 0,
-	RS_CW,
-	RS_CCW,
-	RS_WIREFRAME,
-	RS_NUM
-};
-
 namespace Seed
 {
+	enum RS
+	{
+		RS_CULL_NONE = 0,
+		RS_CW,
+		RS_CCW,
+		RS_WIREFRAME,
+		RS_NUM
+	};
+
 	class RasterizerState
 	{
 	public:

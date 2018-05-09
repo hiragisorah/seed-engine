@@ -5,28 +5,24 @@
 
 #include "entity.h"
 #include "graphics.h"
-#include "resource-manager.h"
 
 namespace Seed
 {
 	class Scene
 	{
 	public:
-		Scene(std::shared_ptr<Scene> & self) : self_(self) {}
+		Scene(std::shared_ptr<Scene> & self, const std::unique_ptr<Graphics> & graphics)
+			: self_(self)
+			, graphics_(graphics)
+		{}
 
 	private:
 		std::shared_ptr<Scene> & self_;
-		std::unique_ptr<ResourceManager> resource_manager_;
+		const std::unique_ptr<Graphics> & graphics_;
 
 	public:
 		const std::shared_ptr<Scene> & self(void) { return this->self_; }
-		const std::unique_ptr<ResourceManager> & resource_manager(void) { return this->resource_manager_; }
-
-	public:
-		void CreateResourceManager(const std::unique_ptr<Graphics> & graphics)
-		{
-			this->resource_manager_ = std::make_unique<ResourceManager>(graphics);
-		}
+		const std::unique_ptr<Graphics> & graphics(void) { return this->graphics_; }
 
 	public:
 		void Destroy(void) { this->self_.reset(); }

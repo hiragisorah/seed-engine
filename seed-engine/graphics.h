@@ -7,7 +7,7 @@
 
 #include "window.h"
 #include "texture.h"
-#include "geometry.h"
+#include "renderer.h"
 #include "shader.h"
 #include "model.h"
 #include "render-target.h"
@@ -19,6 +19,7 @@ namespace Seed
 	{
 	public:
 		Graphics(const std::unique_ptr<Window> & window) : window_(window) {}
+		virtual ~Graphics(void) {}
 
 	private:
 		const std::unique_ptr<Window> & window_;
@@ -27,10 +28,7 @@ namespace Seed
 		const std::unique_ptr<Window> & window(void) { return this->window_; }
 
 	public:
-		virtual ~Graphics(void) {}
-
-	public:
-		std::vector<std::weak_ptr<Model>> model_list_;
+		std::vector<std::weak_ptr<Renderer>> rendering_list_;
 
 	public:
 		virtual void Initialize(void) = 0;
@@ -39,6 +37,14 @@ namespace Seed
 	private:
 		std::unique_ptr<RenderTarget> render_target_;
 		std::unique_ptr<RasterizerState> rasterizer_state_;
+		std::unique_ptr<Model> model_;
+		std::unique_ptr<Shader> shader_;
+
+	public:
+		const std::unique_ptr<RenderTarget> & render_target(void) { return this->render_target_; }
+		const std::unique_ptr<RasterizerState> & rasterizer_state(void) { return this->rasterizer_state_; }
+		const std::unique_ptr<Model> & model(void) { return this->model_; }
+		const std::unique_ptr<Shader> & shader(void) { return this->shader_; }
 
 	public:
 		template<class _RenderTarget, class ... Args> void set_render_target(const Args &... args)
@@ -51,6 +57,55 @@ namespace Seed
 			this->rasterizer_state_ = std::make_unique<_RasterizerState>(args ...);
 			this->rasterizer_state_->Initialize();
 		}
+		template<class _Model, class ... Args> void set_model(const Args &... args)
+		{
+			this->model_ = std::make_unique<_Model>(args ...);
+		}
+		template<class _Shader, class ... Args> void set_shader(const Args &... args)
+		{
+			this->shader_ = std::make_unique<_Shader>(args ...);
+		}
+
+	public:
+		virtual bool Run(void)
+		{
+			this->render_target_->Clear();
+
+			for (unsigned int n = 0; n < this->rendering_list_.size(); ++n)
+			{
+				auto & renderer = this->rendering_list_[n];
+				if (renderer.expired())
+				{
+					this->rendering_list_.erase(this->rendering_list_.begin() + n);
+				}
+				else
+				{
+					this->Rendering(renderer);
+				}
+			}
+
+			this->Present();
+
+			this->CalcFps();
+
+			return true;
+		}
+
+	private:
+		void Rendering(const std::weak_ptr<Renderer> & renderer_weak)
+		{
+			auto renderer = renderer_weak.lock();
+			this->render_target_->Setup(renderer->viewport(), renderer->render_targets(), renderer->depth_stencil());
+			this->rasterizer_state_->Setup(renderer->rasterizer_state());
+			this->shader_->Setup(renderer->shader_file(), renderer->constant_buffer());
+			this->model_->Draw(renderer->model_file());
+		}
+
+	public:
+		void AddRendererToRenderingList(const std::weak_ptr<Renderer> renderer) { this->rendering_list_.emplace_back(renderer); }
+
+	private:
+		virtual void Present(void) = 0;
 
 	private:
 		unsigned int fps_;
@@ -69,44 +124,5 @@ namespace Seed
 				this->start_timer_ = now_timer;
 			}
 		}
-
-	public:
-		virtual bool Run(void)
-		{
-			this->render_target_->Clear();
-
-			for (unsigned int n = 0; n < this->model_list_.size(); ++n)
-			{
-				auto & model = this->model_list_[n];
-				if (model.expired())
-				{
-					this->model_list_.erase(this->model_list_.begin() + n);
-				}
-				else
-				{
-					this->render_target_->Setup(model.lock()->viewport(), model.lock()->render_targets(), model.lock()->depth_stencil());
-					this->rasterizer_state_->Setup(model.lock()->rasterizer_state());
-					this->RenderModel(model);
-				}
-			}
-
-			this->Present();
-
-			this->CalcFps();
-
-			return true;
-		}
-
-	private:
-		virtual void Present(void) = 0;
-		virtual void RenderModel(const std::weak_ptr<Model> & model) = 0;
-
-	public:
-		void AddModelToRenderingList(const std::weak_ptr<Model> model) { this->model_list_.emplace_back(model); }
-
-	public:
-		virtual const std::shared_ptr<Texture> CreateTexture(std::string file_path) = 0;
-		virtual const std::shared_ptr<Geometry> CreateGeometry(std::string file_path) = 0;
-		virtual const std::shared_ptr<Shader> CreateShader(std::string file_path) = 0;
 	};
 }

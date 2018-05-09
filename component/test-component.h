@@ -2,11 +2,9 @@
 
 #include <memory>
 
-#include <DirectXTK\GeometricPrimitive.h>
-
 #include <seed-engine\graphics.h>
 #include <seed-engine\component.h>
-#include <seed-engine\model.h>
+#include <seed-engine\renderer.h>
 
 class TestComponent final : public Seed::Component
 {
@@ -18,7 +16,7 @@ class TestComponent final : public Seed::Component
 	};
 
 private:
-	std::shared_ptr<Seed::Model> model_;
+	std::shared_ptr<Seed::Renderer> renderer_;
 	CBUFFER cbuffer_;
 
 public:
@@ -28,20 +26,16 @@ public:
 public:
 	void OnAdd(void) override
 	{
-		auto & resource_manager = this->entity().lock()->scene().lock()->resource_manager();
-		auto & graphics         = resource_manager->graphics();
-		auto geometry           = resource_manager->geometry("hand.geometry");
-		auto shader             = resource_manager->shader("simple-deffered.hlsl");
-		this->cbuffer_.world_   = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
-		this->cbuffer_.view_    = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
-		this->cbuffer_.proj_    = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
-		this->model_            = std::make_shared<Seed::Model>();
+		this->cbuffer_.world_ = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
+		this->cbuffer_.view_  = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 5.f, -5.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
+		this->cbuffer_.proj_  = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
+		this->renderer_       = std::make_shared<Seed::Renderer>();
 
-		this->model_->set_constant_buffer(&this->cbuffer_);
-		this->model_->set_geometry(geometry);
-		this->model_->set_shader(shader);
+		this->renderer_->set_constant_buffer(&this->cbuffer_);
 
-		graphics->AddModelToRenderingList(this->model_);
+		auto & graphics = this->entity().lock()->scene().lock()->graphics();
+
+		graphics->AddRendererToRenderingList(this->renderer_);
 	}
 	void Update(void) override
 	{

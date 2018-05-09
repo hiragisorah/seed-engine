@@ -2,31 +2,33 @@
 
 #include <vector>
 
-enum RT
-{
-	RT_BACKBUFFER,
-	RT_COLOR_MAP,
-	RT_POSITION_MAP,
-	RT_NORMAL_MAP,
-	RT_DEPTH_MAP,
-	RT_SHADOW_MAP,
-	RT_NUM
-};
-enum VP
-{
-	VP_SIMPLE = 0,
-	VP_SHADOW_MAP,
-	VP_NUM
-};
-enum DS
-{
-	DS_SIMPLE = 0,
-	DS_SHADOW_MAP,
-	DS_NUM
-};
-
 namespace Seed
 {
+	enum RT
+	{
+		RT_BACKBUFFER,
+		RT_COLOR_MAP,
+		RT_POSITION_MAP,
+		RT_NORMAL_MAP,
+		RT_DEPTH_MAP,
+		RT_SHADOW_MAP,
+		RT_NUM
+	};
+
+	enum VP
+	{
+		VP_SIMPLE = 0,
+		VP_SHADOW_MAP,
+		VP_NUM
+	};
+
+	enum DS
+	{
+		DS_SIMPLE = 0,
+		DS_SHADOW_MAP,
+		DS_NUM
+	};
+
 	class RenderTarget
 	{
 	public:

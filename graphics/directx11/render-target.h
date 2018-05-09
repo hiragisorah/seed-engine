@@ -13,6 +13,8 @@
 #include <seed-engine\window.h>
 #include <seed-engine\render-target.h>
 
+using namespace Seed;
+
 struct RTVAndSRV
 {
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv_;
@@ -23,7 +25,7 @@ class Dx11RenderTarget : public Seed::RenderTarget
 {
 public:
 	Dx11RenderTarget(const Microsoft::WRL::ComPtr<ID3D11Device> & device, const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context,
-		const Microsoft::WRL::ComPtr<IDXGISwapChain> & swap_chain, const std::unique_ptr<Seed::Window> & window)
+		const Microsoft::WRL::ComPtr<IDXGISwapChain> & swap_chain, const std::unique_ptr<Window> & window)
 		: device_(device)
 		, context_(context)
 		, swap_chain_(swap_chain)
@@ -34,7 +36,7 @@ private:
 	const Microsoft::WRL::ComPtr<ID3D11Device> & device_;
 	const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context_;
 	const Microsoft::WRL::ComPtr<IDXGISwapChain> & swap_chain_;
-	const std::unique_ptr<Seed::Window> & window_;
+	const std::unique_ptr<Window> & window_;
 
 private:
 	D3D11_VIEWPORT vp_[VP_NUM] = {};

@@ -8,6 +8,8 @@
 
 #include <seed-engine\rasterizer-state.h>
 
+using namespace Seed;
+
 class Dx11RasterizerState : public Seed::RasterizerState
 {
 public:
