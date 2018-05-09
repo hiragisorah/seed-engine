@@ -102,6 +102,10 @@ private:
 		rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 		rtv_desc.Texture2D.MipSlice = 0;
 
+		srv_desc.Format = tex_desc.Format;
+		srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srv_desc.Texture2D.MipLevels = 1;
+
 		this->device_->CreateTexture2D(&tex_desc, nullptr, tex2d.GetAddressOf());
 		this->device_->CreateRenderTargetView(tex2d.Get(), &rtv_desc, this->rtv_and_srv_[RT_COLOR_MAP].rtv_.GetAddressOf());
 		this->device_->CreateShaderResourceView(tex2d.Get(), &srv_desc, this->rtv_and_srv_[RT_COLOR_MAP].srv_.GetAddressOf());
@@ -133,6 +137,10 @@ private:
 		rtv_desc.Format = tex_desc.Format;
 		rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 		rtv_desc.Texture2D.MipSlice = 0;
+
+		srv_desc.Format = tex_desc.Format;
+		srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srv_desc.Texture2D.MipLevels = 1;
 
 		this->device_->CreateTexture2D(&tex_desc, nullptr, tex2d.GetAddressOf());
 		this->device_->CreateRenderTargetView(tex2d.Get(), &rtv_desc, this->rtv_and_srv_[RT_POSITION_MAP].rtv_.GetAddressOf());
@@ -166,6 +174,10 @@ private:
 		rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 		rtv_desc.Texture2D.MipSlice = 0;
 
+		srv_desc.Format = tex_desc.Format;
+		srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srv_desc.Texture2D.MipLevels = 1;
+
 		this->device_->CreateTexture2D(&tex_desc, nullptr, tex2d.GetAddressOf());
 		this->device_->CreateRenderTargetView(tex2d.Get(), &rtv_desc, this->rtv_and_srv_[RT_NORMAL_MAP].rtv_.GetAddressOf());
 		this->device_->CreateShaderResourceView(tex2d.Get(), &srv_desc, this->rtv_and_srv_[RT_NORMAL_MAP].srv_.GetAddressOf());
@@ -197,6 +209,10 @@ private:
 		rtv_desc.Format = tex_desc.Format;
 		rtv_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 		rtv_desc.Texture2D.MipSlice = 0;
+
+		srv_desc.Format = tex_desc.Format;
+		srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srv_desc.Texture2D.MipLevels = 1;
 
 		this->device_->CreateTexture2D(&tex_desc, nullptr, tex2d.GetAddressOf());
 		this->device_->CreateRenderTargetView(tex2d.Get(), &rtv_desc, this->rtv_and_srv_[RT_DEPTH_MAP].rtv_.GetAddressOf());

@@ -102,7 +102,8 @@ private:
 		this->context_->GSSetConstantBuffers(0, 1, shader->constant_buffer_.GetAddressOf());
 		this->context_->PSSetConstantBuffers(0, 1, shader->constant_buffer_.GetAddressOf());
 
-		this->context_->UpdateSubresource(shader->constant_buffer_.Get(), 0, nullptr, constant_buffer, 0, 0);
+		if(shader->constant_buffer_)
+			this->context_->UpdateSubresource(shader->constant_buffer_.Get(), 0, nullptr, constant_buffer, 0, 0);
 
 		this->context_->IASetInputLayout(shader->input_layout_.Get());
 	}

@@ -10,6 +10,7 @@ cbuffer unique : register(b0)
 struct VsIn
 {
     float3 position_ : POSITION;
+    float3 normal_ : NORMAL;
     float2 uv_ : TEXCOORD;
 };
 
@@ -28,8 +29,7 @@ VsOut VS(VsIn input)
 {
     VsOut output = (VsOut) 0;
 
-    output.sv_position_.x = (input.position_.x / g_view_port.x) * 2;
-    output.sv_position_.y = (input.position_.y / g_view_port.y) * 2;
+    output.sv_position_ = float4(input.position_, 1.f);
     output.uv_ = input.uv_;
 
     return output;
