@@ -72,31 +72,20 @@ namespace Seed
 		{
 			this->render_target_->Clear();
 
-
 			for (unsigned int n = 0; n < this->deffered_rendering_.size(); ++n)
 			{
 				auto & renderer = this->deffered_rendering_[n];
-				if (renderer.expired())
-				{
-					this->deffered_rendering_.erase(this->deffered_rendering_.begin() + n);
-				}
-				else
-				{
-					this->Rendering(renderer);
-				}
+				(renderer.expired())
+					? this->deffered_rendering_.erase(this->deffered_rendering_.begin() + n)
+					: this->Rendering(renderer);
 			}
 
 			for (unsigned int n = 0; n < this->final_rendering_.size(); ++n)
 			{
 				auto & renderer = this->final_rendering_[n];
-				if (renderer.expired())
-				{
-					this->final_rendering_.erase(this->final_rendering_.begin() + n);
-				}
-				else
-				{
-					this->Rendering(renderer);
-				}
+				(renderer.expired())
+					? this->final_rendering_.erase(this->final_rendering_.begin() + n)
+					: this->Rendering(renderer);
 			}
 
 			this->Present();
@@ -120,10 +109,9 @@ namespace Seed
 	public:
 		void AddRendererToRenderingList(const std::weak_ptr<Renderer> renderer)
 		{
-			if (renderer.lock()->render_targets()[0] == RT_BACKBUFFER)
-				this->final_rendering_.emplace_back(renderer);
-			else
-				this->deffered_rendering_.emplace_back(renderer);
+			(renderer.lock()->render_targets()[0] == RT_BACKBUFFER)
+				? this->final_rendering_.emplace_back(renderer)
+				: this->deffered_rendering_.emplace_back(renderer);
 		}
 
 	private:

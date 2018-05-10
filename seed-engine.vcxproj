@@ -27,7 +27,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -133,6 +133,7 @@
     <ClInclude Include="graphics\directx11\model.h" />
     <ClInclude Include="graphics\directx11\shader.h" />
     <ClInclude Include="seed-engine\blend-state.h" />
+    <ClInclude Include="seed-engine\camera.h" />
     <ClInclude Include="seed-engine\rasterizer-state.h" />
     <ClInclude Include="seed-engine\render-target.h" />
     <ClInclude Include="scene\test-scene.h" />
