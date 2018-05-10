@@ -21,11 +21,6 @@
 
 class DirectX11 : public Seed::Graphics
 {
-public:
-	DirectX11(const std::unique_ptr<Seed::Window> & window)
-		: Graphics(window)
-	{}
-
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> device_;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;
@@ -38,13 +33,13 @@ public:
 		DXGI_SWAP_CHAIN_DESC sd;
 		memset(&sd, 0, sizeof(sd));
 		sd.BufferCount = 1;
-		sd.BufferDesc.Width = this->window()->width();
-		sd.BufferDesc.Height = this->window()->height();
+		sd.BufferDesc.Width = this->window().lock()->width();
+		sd.BufferDesc.Height = this->window().lock()->height();
 		sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		sd.BufferDesc.RefreshRate.Numerator = 60;
 		sd.BufferDesc.RefreshRate.Denominator = 1;
 		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		sd.OutputWindow = this->window()->hwnd();
+		sd.OutputWindow = this->window().lock()->hwnd();
 		sd.SampleDesc.Count = 1;
 		sd.SampleDesc.Quality = 0;
 		sd.Windowed = true;

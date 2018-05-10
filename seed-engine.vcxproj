@@ -122,6 +122,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="component\g-buffer.h" />
     <ClInclude Include="component\test-component.h" />
     <ClInclude Include="DirectXTK\WICTextureLoader.h" />
     <ClInclude Include="entity\test-entity.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="seed-engine\scene-manager.h" />
     <ClInclude Include="seed-engine\scene.h" />
     <ClInclude Include="seed-engine\shader.h" />
+    <ClInclude Include="seed-engine\system.h" />
     <ClInclude Include="seed-engine\texture.h" />
     <ClInclude Include="seed-engine\utils.h" />
     <ClInclude Include="seed-engine\window.h" />

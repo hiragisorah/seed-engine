@@ -64,7 +64,8 @@ namespace Seed
 		}
 
 	public:
-		virtual void Initialize(void) {}
+		virtual void Initialize(void) = 0;
+		virtual void Finalize(void) {}
 
 	public:
 		void Pause(void)
@@ -101,30 +102,6 @@ namespace Seed
 			for (unsigned int n = 0; n < this->children_.size(); ++n)
 				this->children_[n]
 				? this->children_[n]->Always()
-				: this->children_.erase(this->children_.begin() + n);
-		}
-		void Render(const std::unique_ptr<Graphics> & graphics)
-		{
-			for (auto && component : this->components_)
-				component.second
-				? component.second->Render(graphics)
-				: this->components_.erase(component.first);
-
-			for (unsigned int n = 0; n < this->children_.size(); ++n)
-				this->children_[n]
-				? this->children_[n]->Render(graphics)
-				: this->children_.erase(this->children_.begin() + n);
-		}
-		void Finalize(void)
-		{
-			for (auto && component : this->components_)
-				component.second
-				? component.second->Finalize()
-				: this->components_.erase(component.first);
-
-			for (unsigned int n = 0; n < this->children_.size(); ++n)
-				this->children_[n]
-				? this->children_[n]->Finalize()
 				: this->children_.erase(this->children_.begin() + n);
 		}
 	};

@@ -18,17 +18,17 @@ namespace Seed
 	class Graphics
 	{
 	public:
-		Graphics(const std::unique_ptr<Window> & window) : window_(window) {}
 		virtual ~Graphics(void) {}
 
 	private:
-		const std::unique_ptr<Window> & window_;
+		std::weak_ptr<Window> window_;
 
 	public:
-		const std::unique_ptr<Window> & window(void) { return this->window_; }
+		void set_window(const std::shared_ptr<Window> & window) { this->window_ = window; }
+		const std::weak_ptr<Window> & window(void) { return this->window_; }
 
 	public:
-		std::vector<std::weak_ptr<Renderer>> rendering_list_;
+		std::vector<std::weak_ptr<Renderer>> deffered_rendering_;
 		std::vector<std::weak_ptr<Renderer>> final_rendering_;
 
 	public:
@@ -73,12 +73,12 @@ namespace Seed
 			this->render_target_->Clear();
 
 
-			for (unsigned int n = 0; n < this->rendering_list_.size(); ++n)
+			for (unsigned int n = 0; n < this->deffered_rendering_.size(); ++n)
 			{
-				auto & renderer = this->rendering_list_[n];
+				auto & renderer = this->deffered_rendering_[n];
 				if (renderer.expired())
 				{
-					this->rendering_list_.erase(this->rendering_list_.begin() + n);
+					this->deffered_rendering_.erase(this->deffered_rendering_.begin() + n);
 				}
 				else
 				{
@@ -123,7 +123,7 @@ namespace Seed
 			if (renderer.lock()->render_targets()[0] == RT_BACKBUFFER)
 				this->final_rendering_.emplace_back(renderer);
 			else
-				this->rendering_list_.emplace_back(renderer);
+				this->deffered_rendering_.emplace_back(renderer);
 		}
 
 	private:
@@ -141,7 +141,8 @@ namespace Seed
 			this->fps_++;
 			if (diff.count() >= 1000)
 			{
-				printf("%6d\r", this->fps_);
+				std::string caption = "FPS: " + std::to_string(this->fps_);
+				SetWindowTextA(this->window_.lock()->hwnd(), caption.c_str());
 				this->fps_ = 0;
 				this->start_timer_ = now_timer;
 			}

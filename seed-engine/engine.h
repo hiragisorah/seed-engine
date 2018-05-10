@@ -13,19 +13,22 @@ namespace Seed
 	class Engine final
 	{
 	private:
-		std::unique_ptr<Window> window_;
-		std::unique_ptr<Graphics> graphics_;
 		std::unique_ptr<SceneManager> scene_manager_;
+		std::shared_ptr<Graphics> graphics_;
+		std::shared_ptr<Window> window_;
 
 	public:
 		template<class _Window, class ... Args> void set_window(const Args &... args)
 		{
-			this->window_ = std::make_unique<_Window>(args ...);
+			this->window_ = std::make_shared<_Window>(args ...);
 		}
 		template<class _Graphics, class ... Args> void set_graphics(const Args &... args)
 		{
 			if (this->window_)
-				this->graphics_ = std::make_unique<_Graphics>(this->window_, args ...);
+			{
+				this->graphics_ = std::make_shared<_Graphics>(args ...);
+				this->graphics_->set_window(this->window_);
+			}
 		}
 
 	public:
@@ -36,7 +39,8 @@ namespace Seed
 
 			this->window_->Initialize();
 			this->graphics_->Initialize();
-			this->scene_manager_ = std::make_unique<SceneManager>(this->graphics_);
+			this->scene_manager_ = std::make_unique<SceneManager>();
+			this->scene_manager_->set_graphics(this->graphics_);
 
 			this->scene_manager_->ChangeScene<_Scene>(args ...);
 

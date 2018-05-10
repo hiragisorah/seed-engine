@@ -22,7 +22,7 @@ namespace Seed
 
 		void set_entity(const std::shared_ptr<Entity> & entity) { this->entity_ = entity; }
 
-	private:
+	public:
 		bool Remove(void) { this->OnRemove(), this->self_.reset(); }
 
 	public:
@@ -31,7 +31,5 @@ namespace Seed
 		virtual void Pause(void) {}
 		virtual void Update(void) {}
 		virtual void Always(void) {}
-		virtual void Render(const std::unique_ptr<Graphics> & graphics) { graphics; }
-		virtual void Finalize(void) {}
 	};
 }

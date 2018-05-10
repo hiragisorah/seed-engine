@@ -4,7 +4,7 @@ SamplerState own_sampler : register(s0);
 
 cbuffer unique : register(b0)
 {
-    float2 g_view_port : packoffset(c0);
+    row_major matrix g_world : packoffset(c0);
 };
 
 struct VsIn
@@ -29,7 +29,7 @@ VsOut VS(VsIn input)
 {
     VsOut output = (VsOut) 0;
 
-    output.sv_position_ = float4(input.position_, 1.f);
+    output.sv_position_ = mul(float4(input.position_, 1.f),  g_world);
     output.uv_ = input.uv_;
 
     return output;

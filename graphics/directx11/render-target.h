@@ -25,7 +25,7 @@ class Dx11RenderTarget : public Seed::RenderTarget
 {
 public:
 	Dx11RenderTarget(const Microsoft::WRL::ComPtr<ID3D11Device> & device, const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context,
-		const Microsoft::WRL::ComPtr<IDXGISwapChain> & swap_chain, const std::unique_ptr<Window> & window)
+		const Microsoft::WRL::ComPtr<IDXGISwapChain> & swap_chain, const std::weak_ptr<Window> & window)
 		: device_(device)
 		, context_(context)
 		, swap_chain_(swap_chain)
@@ -36,7 +36,7 @@ private:
 	const Microsoft::WRL::ComPtr<ID3D11Device> & device_;
 	const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context_;
 	const Microsoft::WRL::ComPtr<IDXGISwapChain> & swap_chain_;
-	const std::unique_ptr<Window> & window_;
+	std::weak_ptr<Window> window_;
 
 private:
 	D3D11_VIEWPORT vp_[VP_NUM] = {};
@@ -48,8 +48,8 @@ private:
 	{
 		auto & vp = this->vp_[DS_SIMPLE];
 
-		vp.Width = this->window_->width<float>();
-		vp.Height = this->window_->height<float>();
+		vp.Width = this->window_.lock()->width<float>();
+		vp.Height = this->window_.lock()->height<float>();
 		vp.MinDepth = 0.f;
 		vp.MaxDepth = 1.f;
 		vp.TopLeftX = 0.f;
@@ -59,8 +59,8 @@ private:
 	{
 		auto & vp = this->vp_[DS_SHADOW_MAP];
 
-		vp.Width = this->window_->width<float>();
-		vp.Height = this->window_->height<float>();
+		vp.Width = this->window_.lock()->width<float>();
+		vp.Height = this->window_.lock()->height<float>();
 		vp.MinDepth = 0.f;
 		vp.MaxDepth = 1.f;
 		vp.TopLeftX = 0.f;
@@ -86,8 +86,8 @@ private:
 		memset(&rtv_desc, 0, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
 
 		//カラーマップ用テクスチャーとそのレンダーターゲットビュー、シェーダーリソースビューの作成	
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -122,8 +122,8 @@ private:
 		memset(&rtv_desc, 0, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
 
 		//ポジションマップ用テクスチャーとそのレンダーターゲットビュー、シェーダーリソースビューの作成	
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -158,8 +158,8 @@ private:
 		memset(&rtv_desc, 0, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
 
 		//法線マップ用テクスチャーとそのレンダーターゲットビュー、シェーダーリソースビューの作成	
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -194,8 +194,8 @@ private:
 		memset(&rtv_desc, 0, sizeof(D3D11_RENDER_TARGET_VIEW_DESC));
 
 		//深度マップ用テクスチャーとそのレンダーターゲットビュー、シェーダーリソースビューの作成	
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -227,8 +227,8 @@ private:
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> tex2d;
 		//深度マップテクスチャをレンダーターゲットにする際のデプスステンシルビュー用のテクスチャーを作成
 		D3D11_TEXTURE2D_DESC tex_desc = {};
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -247,8 +247,8 @@ private:
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> tex2d;
 		//深度マップテクスチャをレンダーターゲットにする際のデプスステンシルビュー用のテクスチャーを作成
 		D3D11_TEXTURE2D_DESC tex_desc = {};
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -267,8 +267,8 @@ private:
 		Microsoft::WRL::ComPtr<ID3D11Texture2D> tex2d;
 		//深度マップテクスチャをレンダーターゲットにする際のデプスステンシルビュー用のテクスチャーを作成
 		D3D11_TEXTURE2D_DESC tex_desc = {};
-		tex_desc.Width = this->window_->width();
-		tex_desc.Height = this->window_->height();
+		tex_desc.Width = this->window_.lock()->width();
+		tex_desc.Height = this->window_.lock()->height();
 		tex_desc.MipLevels = 1;
 		tex_desc.ArraySize = 1;
 		tex_desc.Format = DXGI_FORMAT_D32_FLOAT;

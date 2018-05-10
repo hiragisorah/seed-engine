@@ -2,6 +2,7 @@
 
 #include <seed-engine\entity.h>
 #include <component\test-component.h>
+#include <component\g-buffer.h>
 
 class TestEntity : public Seed::Entity
 {
@@ -13,5 +14,6 @@ public:
 	void Initialize(void)
 	{
 		this->add_component<TestComponent>();
+		this->add_component<GBuffer>();
 	}
 };
