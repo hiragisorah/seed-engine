@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "camera.h"
+
 namespace Seed
 {
 	class Shader
@@ -12,6 +14,6 @@ namespace Seed
 	public:
 		virtual void Load(std::string name) = 0;
 		virtual void Unload(std::string name) = 0;
-		virtual void Setup(std::string name, void * constant_buffer) = 0;
+		virtual void Setup(std::string name, const std::vector<void*> & constant_buffers) = 0;
 	};
 }

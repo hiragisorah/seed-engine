@@ -34,7 +34,7 @@ public:
 
 		this->renderer_       = std::make_shared<Seed::Renderer>();
 
-		this->renderer_->set_constant_buffer(&this->cbuffer_);
+		this->renderer_->set_constant_buffer(0, &this->cbuffer_);
 		this->renderer_->set_rasterizer_state(RS_CW);
 		this->renderer_->set_render_targets({ RT_COLOR_MAP, RT_POSITION_MAP, RT_NORMAL_MAP, RT_DEPTH_MAP });
 		this->renderer_->set_depth_stencil(DS_DEFFERED);

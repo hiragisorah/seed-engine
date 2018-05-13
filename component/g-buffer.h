@@ -47,7 +47,7 @@ public:
 		this->col_renderer_->set_setup_textures({ RT_COLOR_MAP });
 		this->col_renderer_->set_shader_file("simple2d-backbuffer");
 		this->col_renderer_->set_model_file("quad2d");
-		this->col_renderer_->set_constant_buffer(&this->col_cbuffer_);
+		this->col_renderer_->set_constant_buffer(0, &this->col_cbuffer_);
 
 		this->pos_renderer_ = std::make_shared<Renderer>();
 		this->pos_renderer_->set_rasterizer_state(RS_CW);
@@ -56,7 +56,7 @@ public:
 		this->pos_renderer_->set_setup_textures({ RT_POSITION_MAP });
 		this->pos_renderer_->set_shader_file("simple2d-backbuffer");
 		this->pos_renderer_->set_model_file("quad2d");
-		this->pos_renderer_->set_constant_buffer(&this->pos_cbuffer_);
+		this->pos_renderer_->set_constant_buffer(0, &this->pos_cbuffer_);
 
 		this->nor_renderer_ = std::make_shared<Renderer>();
 		this->nor_renderer_->set_rasterizer_state(RS_CW);
@@ -65,7 +65,7 @@ public:
 		this->nor_renderer_->set_setup_textures({ RT_NORMAL_MAP });
 		this->nor_renderer_->set_shader_file("simple2d-backbuffer");
 		this->nor_renderer_->set_model_file("quad2d");
-		this->nor_renderer_->set_constant_buffer(&this->nor_cbuffer_);
+		this->nor_renderer_->set_constant_buffer(0, &this->nor_cbuffer_);
 
 		this->dep_renderer_ = std::make_shared<Renderer>();
 		this->dep_renderer_->set_rasterizer_state(RS_CW);
@@ -74,7 +74,7 @@ public:
 		this->dep_renderer_->set_setup_textures({ RT_DEPTH_MAP });
 		this->dep_renderer_->set_shader_file("simple2d-backbuffer");
 		this->dep_renderer_->set_model_file("quad2d");
-		this->dep_renderer_->set_constant_buffer(&this->dep_cbuffer_);
+		this->dep_renderer_->set_constant_buffer(0, &this->dep_cbuffer_);
 
 		auto & graphics = this->entity().lock()->scene().lock()->graphics();
 
