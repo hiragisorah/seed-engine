@@ -5,6 +5,10 @@ SamplerState own_sampler : register(s0);
 cbuffer unique : register(b0)
 {
     row_major matrix g_world;
+};
+
+cbuffer unique : register(b1)
+{
     row_major matrix g_view;
     row_major matrix g_proj;
 };

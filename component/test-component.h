@@ -8,13 +8,14 @@
 #include <seed-engine\component.h>
 #include <seed-engine\renderer.h>
 
+#include <component\lens.h>
+#include <scene\test-scene.h>
+
 class TestComponent final : public Seed::Component
 {
 	struct CBUFFER
 	{
 		DirectX::XMMATRIX world_;
-		DirectX::XMMATRIX view_;
-		DirectX::XMMATRIX proj_;
 	};
 
 private:
@@ -28,13 +29,14 @@ public:
 public:
 	void OnAdd(void) override
 	{
+		auto camera_cbuffer = this->entity().lock()->scene().lock()->system<CameraManager>()->main_camera().lock()->component<Lens>()->constant_buffer();
+
 		this->cbuffer_.world_ = DirectX::XMMatrixScaling(1.f, 1.f, 1.f);
-		this->cbuffer_.view_ = DirectX::XMMatrixLookAtLH(DirectX::XMVectorSet(0, 30.f, -30.f, 0), DirectX::XMVectorZero(), DirectX::XMVectorSet(0.f, 1.f, 0.f, 0.f));
-		this->cbuffer_.proj_ = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PIDIV4, 16.f / 9.f, 0.1f, 1000.f);
 
-		this->renderer_       = std::make_shared<Seed::Renderer>();
+		this->renderer_ = std::make_shared<Seed::Renderer>();
 
-		this->renderer_->set_constant_buffer(&this->cbuffer_);
+		this->renderer_->set_constant_buffer(0, &this->cbuffer_);
+		this->renderer_->set_constant_buffer(1, &camera_cbuffer);
 		this->renderer_->set_rasterizer_state(RS_CW);
 		this->renderer_->set_render_targets({ RT_COLOR_MAP, RT_POSITION_MAP, RT_NORMAL_MAP, RT_DEPTH_MAP });
 		this->renderer_->set_depth_stencil(DS_DEFFERED);
