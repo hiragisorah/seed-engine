@@ -2,7 +2,9 @@
 
 #include <seed-engine\scene.h>
 
+#include <system\camera-manager.h>
 #include <entity\test-entity.h>
+#include <entity\test-camera.h>
 
 using namespace Seed;
 
@@ -23,6 +25,11 @@ public:
 		this->graphics().lock()->shader()->Load("simple2d-backbuffer");
 		this->graphics().lock()->shader()->Load("simple3d-backbuffer");
 		this->graphics().lock()->shader()->Load("simple3d-deffered");
+
+		this->add_system<CameraManager>();
+
+		auto & camera = this->Create<TestCamera>();
+		this->system<CameraManager>()->set_main_camera(camera);
 
 		this->Create<TestEntity>();
 	}

@@ -123,8 +123,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="component\g-buffer.h" />
+    <ClInclude Include="component\lens.h" />
     <ClInclude Include="component\test-component.h" />
     <ClInclude Include="DirectXTK\WICTextureLoader.h" />
+    <ClInclude Include="entity\test-camera.h" />
     <ClInclude Include="entity\test-entity.h" />
     <ClInclude Include="graphics\directx11.h" />
     <ClInclude Include="graphics\directx11\blend-state.h" />
@@ -151,6 +153,7 @@
     <ClInclude Include="seed-engine\texture.h" />
     <ClInclude Include="seed-engine\utils.h" />
     <ClInclude Include="seed-engine\window.h" />
+    <ClInclude Include="system\camera-manager.h" />
     <ClInclude Include="window\simple-window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
