@@ -19,8 +19,10 @@ class Dx11Model : public Seed::Model
 	{
 		Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 		Microsoft::WRL::ComPtr<ID3D11Buffer> vertex_buffer_;
+		Microsoft::WRL::ComPtr<ID3D11Buffer> index_buffer_;
 		unsigned int vertex_size_;
 		unsigned int vertex_num_;
+		unsigned int index_num_;
 	};
 
 	struct ModelData
@@ -45,7 +47,7 @@ private:
 private:
 	void Load(std::string name) override
 	{
-		auto path = "resource/model/" + name + ".sem";
+		auto file_path = "resource/model/" + name + ".sem";
 		auto & model = this->model_list_[name] = std::make_unique<ModelData>();
 
 		struct Vertex
@@ -57,47 +59,84 @@ private:
 
 		struct Mesh
 		{
-			std::string texture_name_;
+			std::string texture_;
 			std::vector<Vertex> vertices_;
+			std::vector<unsigned int> indices_;
 		};
 
 		std::vector<Mesh> meshes;
 
+		meshes.clear();
+
 		std::ifstream file;
-		file.open(path, std::ios::in | std::ios::binary);
 
-		if (file.fail())
-		{
-			std::cout << __FUNCTION__ << " ƒ‚ƒfƒ‹‚Ì“Ç‚Ýž‚Ý‚ÉŽ¸”s‚µ‚Ü‚µ‚½" << std::endl;
-			return;
-		}
+		file.open(file_path, std::ios::in | std::ios::binary);
 
-		unsigned int mesh_cnt = 0;
-		file >> mesh_cnt;
+		unsigned int mesh_cnt;
+
+		file.read(reinterpret_cast<char*>(&mesh_cnt), sizeof(unsigned int));
 
 		meshes.resize(mesh_cnt);
 
-		for (unsigned int n = 0; n < mesh_cnt; ++n)
+		for (unsigned int m = 0; m < mesh_cnt; ++m)
 		{
-			unsigned int vtx_cnt = 0;
-			file.read((char*)&vtx_cnt, sizeof(unsigned int));
+			auto & mesh = meshes[m];
 
-			meshes[n].vertices_.resize(vtx_cnt);
-			for (unsigned int i = 0; i < vtx_cnt; ++i)
+			unsigned int vtx_cnt = 0;
+
+			file.read(reinterpret_cast<char*>(&vtx_cnt), sizeof(unsigned int));
+
+			mesh.vertices_.resize(vtx_cnt);
+
+			for (unsigned int v = 0; v < vtx_cnt; ++v)
 			{
-				file.read((char*)&meshes[n].vertices_[i], sizeof(Vertex));
+				auto & vtx = mesh.vertices_[v];
+
+				file.read(reinterpret_cast<char*>(&vtx), sizeof(Vertex));
+			}
+
+			unsigned int index_cnt = 0;
+
+			file.read(reinterpret_cast<char*>(&index_cnt), sizeof(unsigned int));
+
+			mesh.indices_.resize(index_cnt);
+
+			for (unsigned int i = 0; i < index_cnt; ++i)
+			{
+				auto & index = mesh.indices_[i];
+
+				file.read(reinterpret_cast<char*>(&index), sizeof(unsigned int));
+			}
+
+			unsigned texture_str_cnt = 0;
+
+			file.read(reinterpret_cast<char*>(&texture_str_cnt), sizeof(unsigned int));
+
+			mesh.texture_.resize(texture_str_cnt);
+
+			if (texture_str_cnt > 0)
+			{
+				char * texture_str = new char[texture_str_cnt + 1];
+				file.read(&texture_str[0], sizeof(char) * texture_str_cnt);
+				texture_str[texture_str_cnt] = '\0';
+				mesh.texture_ = texture_str;
+				mesh.texture_ = mesh.texture_.substr(mesh.texture_.rfind("\\") + 1, mesh.texture_.size() - mesh.texture_.rfind("\\"));
+
+				delete[] texture_str;
 			}
 		}
 
 		file.close();
-
-		model->meshes_.resize(mesh_cnt);
-
 		for (unsigned int n = 0; n < mesh_cnt; ++n)
 		{
-			std::wstring w_file_path = L"resource/texture/" + std::wstring(meshes[n].texture_name_.begin(), meshes[n].texture_name_.end());
-			DirectX::CreateWICTextureFromFile(this->device_.Get(), w_file_path.c_str(), nullptr, model->meshes_[n].texture_.GetAddressOf());
+			if (meshes[n].texture_ != "")
+			{
+				std::wstring w_file_path = L"resource/texture/" + std::wstring(meshes[n].texture_.begin(), meshes[n].texture_.end());
+				DirectX::CreateWICTextureFromFile(this->device_.Get(), w_file_path.c_str(), nullptr, model->meshes_[n].texture_.GetAddressOf());
+			}
+
 			this->CreateVertexBuffer(model->meshes_[n], meshes[n].vertices_);
+			this->CreateIndexBuffer(model->meshes_[n], meshes[n].indices_);
 		}
 	}
 	void Unload(std::string name) override
@@ -112,12 +151,13 @@ private:
 
 		unsigned int offset = 0;
 
-		this->context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		this->context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 		for (auto & mesh : model->meshes_)
 		{
 			this->context_->IASetVertexBuffers(0, 1, mesh.vertex_buffer_.GetAddressOf(), &mesh.vertex_size_, &offset);
-			this->context_->Draw(mesh.vertex_num_, 0);
+			this->context_->IASetIndexBuffer(mesh.index_buffer_.Get(), DXGI_FORMAT_R32_UINT, 0);
+			this->context_->DrawIndexed(mesh.index_num_, 0, 0);
 		}
 	}
 

@@ -20,7 +20,7 @@ int __stdcall WinMain(HINSTANCE, HINSTANCE, char*, int)
 
 	Seed::Engine engine;
 
-	engine.set_window<SimpleWindow>("test", 1280, 720U);
+	engine.set_window<SimpleWindow>("test", 1280U, 720U);
 	engine.set_graphics<DirectX11>();
 
 	engine.Run<TestScene>();

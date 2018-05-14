@@ -66,7 +66,7 @@ public:
 			}
 		}
 	}
-	bool Run(void) override
+	const bool Run(void) override
 	{
 		return this->MessageLoop();
 	}
@@ -76,15 +76,15 @@ public:
 	}
 
 public:
-	HWND hwnd(void) const override
+	const HWND hwnd(void) const override
 	{
 		return this->hwnd_;
 	}
-	unsigned int width(void) const override
+	const unsigned int width(void) const override
 	{
 		return this->width_;
 	}
-	unsigned int height(void) const override
+	const unsigned int height(void) const override
 	{
 		return this->height_;
 	}

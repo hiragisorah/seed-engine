@@ -35,6 +35,7 @@ public:
 private:
 	const Microsoft::WRL::ComPtr<ID3D11Device> & device_;
 	const Microsoft::WRL::ComPtr<ID3D11DeviceContext> & context_;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> constant_buffer_[2];
 
 private:
 	std::unordered_map<std::string, std::unique_ptr<ShaderData>> shader_list_;
@@ -106,6 +107,11 @@ private:
 			this->context_->UpdateSubresource(shader->constant_buffer_.Get(), 0, nullptr, constant_buffer, 0, 0);
 
 		this->context_->IASetInputLayout(shader->input_layout_.Get());
+	}
+	void SetConstantBuffer(const int & num, void * constant_buffer)
+	{
+		if (this->constant_buffer_[num])
+			this->context_->UpdateSubresource(this->constant_buffer_[num].Get(), 0, nullptr, constant_buffer, 0, 0);
 	}
 
 private:

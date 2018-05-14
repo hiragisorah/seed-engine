@@ -13,5 +13,8 @@ namespace Seed
 		virtual void Load(std::string name) = 0;
 		virtual void Unload(std::string name) = 0;
 		virtual void Setup(std::string name, void * constant_buffer) = 0;
+		
+	public:
+		virtual void SetConstantBuffer(const int & num, void * constant_buffer) = 0;
 	};
 }

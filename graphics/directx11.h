@@ -55,7 +55,7 @@ public:
 		this->set_rasterizer_state<Dx11RasterizerState>(this->device_, this->context_);
 		this->set_shader<Dx11Shader>(this->device_, this->context_);
 		this->set_model<Dx11Model>(this->device_, this->context_);
-	};
+	}
 	void Finalize(void) override {}
 	void Present(void) override
 	{
